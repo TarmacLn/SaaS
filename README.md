@@ -1,2 +1,19 @@
-# SaaS
-Project for the course "Software as a Service" for University of Piraeus, featuring a SaaS program for management and creating of study groups.
+# To be updated
+
+* Ruby version
+
+* System dependencies
+
+* Configuration
+
+* Database creation
+
+* Database initialization
+
+* How to run the test suite
+
+* Services (job queues, cache servers, search engines, etc.)
+
+* Deployment instructions
+
+* ...
