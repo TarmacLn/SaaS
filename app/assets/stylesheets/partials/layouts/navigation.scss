@@ -1,0 +1,15 @@
+nav.navbar {
+  background: $navbarColor !important;
+  border: none;
+
+  .navbar-toggler, .navbar-brand {
+    transition: opacity 0.15s;
+  }
+  .navbar-toggler:hover, .navbar-brand:hover {
+    opacity: 0.8;
+  }
+
+  a {
+    color: white !important;
+  }
+}
