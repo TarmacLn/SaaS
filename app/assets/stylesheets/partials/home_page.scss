@@ -1,0 +1,59 @@
+#main-content {
+  background: white;
+  min-height: 800px;
+  margin: 0;
+  padding-top: 10px;
+}
+
+#side-menu {
+  padding: 0;
+  #links-list {
+    margin-top: 20px;
+    padding: 0;
+    font-size: 14px;
+    font-size: 1.4rem;
+    a {
+      display: block;
+      padding: 5px 15px;
+      margin: 2px 0;
+    }
+    li {
+      min-width: 195px;
+      max-width: 195px;
+    }
+    li, li a {
+      color: black;
+      text-decoration: none;
+    }
+    li:hover {
+      border-radius: 50px;
+      background: $navbarColor;
+    }
+    li:hover a, li:hover i {
+      color: white;
+    }
+    i {
+      margin-right: 8px;
+      font-size: 16px;
+      font-size: 1.6rem;
+      vertical-align: -1px;
+    }
+  }
+
+  .non-signed-in-message {
+    max-width: 195px;
+    margin-top: 24px;
+    padding: 12px 15px;
+    border-radius: 10px;
+    background: rgba($navbarColor, 0.06);
+    color: #5f6566;
+    font-size: 13px;
+    font-size: 1.3rem;
+    line-height: 1.5;
+  }
+
+  .login-button-index {
+    color: $navbarColor;
+    font-weight: 600;
+  }
+}

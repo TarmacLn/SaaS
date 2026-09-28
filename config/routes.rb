@@ -22,4 +22,12 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   root to: "pages#index"
+
+  resources :posts do
+    collection do
+      get "hobby"
+      get "study"
+      get "team"
+    end
+  end
 end

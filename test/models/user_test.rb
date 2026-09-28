@@ -22,4 +22,15 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.valid?
     assert user.errors.of_kind?(:password, :too_short)
   end
+
+  test "has many posts" do
+    assert_equal [ posts(:hobby_post), posts(:study_post) ].sort, users(:one).posts.sort
+  end
+
+  test "deleting a user deletes their posts" do
+    user = users(:one)
+    assert_difference "Post.count", -user.posts.count do
+      user.destroy
+    end
+  end
 end

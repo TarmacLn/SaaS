@@ -1,0 +1,23 @@
+<% content_for :title, @post.title %>
+
+<div class="container post-page">
+  <%= link_to "← Back to posts", root_path, class: "back-link" %>
+
+  <article class="post-modal branch-<%= @post.category.branch %>">
+    <div class="modal-header">
+      <span class="post-category"><%= @post.category.name %></span>
+    </div>
+
+    <div class="modal-body loaded-data">
+      <h3><%= @post.title %></h3>
+      <div class="posted-by">
+        Posted by <%= @post.user.name %> · <%= time_ago_in_words(@post.created_at) %> ago
+      </div>
+      <p class="post-body"><%= @post.content %></p>
+    </div>
+
+    <div class="modal-footer">
+      <%= render contact_button_partial_path, post_url: post_path(@post) %>
+    </div>
+  </article>
+</div>

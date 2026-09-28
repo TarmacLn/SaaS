@@ -1,4 +1,8 @@
-<div>
-  <h1>Welcome to the Pages Index</h1>
-  <p>This is the index page for the Pages controller.</p>
-</div>
+<div class="container" data-controller="post-modal">
+  <div class="row">
+    <%= render "pages/index/side_menu" %>
+    <%= render "pages/index/main_content" %>
+  </div><!-- row -->
+
+  <%= render "posts/modal" %>
+</div><!-- container -->

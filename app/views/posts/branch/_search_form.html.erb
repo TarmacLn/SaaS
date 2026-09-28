@@ -1,0 +1,9 @@
+<%= form_with url: branch_posts_path(branch), method: :get, id: "search-form", class: "search-form" do %>
+  <i class="bi bi-search" aria-hidden="true"></i>
+  <%= search_field_tag :search,
+                       params[:search],
+                       placeholder: branch_search_placeholder(branch),
+                       class: "form-control",
+                       "aria-label": "Search posts" %>
+  <%= render category_field_partial_path %>
+<% end %>

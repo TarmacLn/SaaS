@@ -1,0 +1,20 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# user and category refer to fixture labels in users.yml and categories.yml.
+
+hobby_post:
+  title: Looking for a tennis partner
+  content: Anyone up for a game on weekends?
+  user: one
+  category: sports
+
+study_post:
+  title: Study group for algorithms
+  content: Preparing for the algorithms exam, looking for 2-3 people.
+  user: one
+  category: computer_science
+
+team_post:
+  title: Need a teammate for the Rails project
+  content: Building a collaboration portal, looking for a backend developer.
+  user: two
+  category: development
