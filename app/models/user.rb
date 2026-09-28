@@ -17,6 +17,11 @@ class User < ApplicationRecord
            class_name: "Private::Conversation",
            dependent: :destroy
 
+  # Group conversations
+  has_many :group_messages, class_name: "Group::Message", dependent: :destroy
+  has_many :group_memberships, class_name: "Group::Membership", dependent: :destroy
+  has_many :group_conversations, through: :group_memberships, source: :conversation
+
   # Contacts: requests this user sent (contacts) and received (all_received_contact_requests)
   has_many :contacts, dependent: :destroy
   has_many :all_received_contact_requests, class_name: "Contact", foreign_key: :contact_id, dependent: :destroy
