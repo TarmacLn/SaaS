@@ -6,9 +6,11 @@ class ConversationWindowsTest < ActionDispatch::IntegrationTest
     @window = "#pc#{@conversation.id}"
   end
 
-  test "guests have no conversation windows" do
+  test "guests have no conversation windows and no real-time stream" do
     get root_path
     assert_select "#conversations-windows", count: 0
+    assert_select "turbo-cable-stream-source", count: 0
+    assert_select "meta[name=current-user-id][content='']"
   end
 
   test "no windows are open until a conversation is opened" do
@@ -16,6 +18,24 @@ class ConversationWindowsTest < ActionDispatch::IntegrationTest
     get root_path
 
     assert_select "#conversations-windows .conversation-window", count: 0
+  end
+
+  test "signed-in users subscribe to their own real-time stream" do
+    sign_in users(:one)
+    get root_path
+
+    stream = Turbo::StreamsChannel.signed_stream_name([ users(:one), :private_conversations ])
+    assert_select "turbo-cable-stream-source[signed-stream-name=?]", stream
+    assert_select "#incoming-messages[hidden]"
+    assert_select "meta[name=current-user-id][content=?]", users(:one).id.to_s
+    assert_select "meta[name=action-cable-url]"
+  end
+
+  test "an incoming message can open its window collapsed" do
+    sign_in users(:two)
+    post open_private_conversation_path(@conversation, expanded: false), as: :turbo_stream
+
+    assert_match %(data-conversation-window-expanded-value="false"), response.body
   end
 
   test "sending the first message on a post opens its window on every page" do
