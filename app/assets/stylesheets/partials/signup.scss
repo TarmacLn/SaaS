@@ -7,3 +7,54 @@
   text-align: center;
   padding-bottom: 20px; 
 }
+
+// "Continue with Google" on the login and signup pages (devise/shared/_google_login)
+.google-login {
+  margin-top: 16px;
+
+  .button_to {
+    margin: 0;
+  }
+}
+
+.google-login-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: #7a8081;
+  font-size: 13px;
+  font-size: 1.3rem;
+
+  &::before, &::after {
+    flex: 1;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    content: "";
+  }
+}
+
+.google-login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 16px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  background: white;
+  color: #1f1f1f;
+  font-size: 14px;
+  font-size: 1.4rem;
+  font-weight: 500;
+
+  &:hover {
+    background: #f7f8f8;
+    border-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .google-logo {
+    width: 18px;
+    height: 18px;
+  }
+}

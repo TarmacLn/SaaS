@@ -45,6 +45,11 @@ gem "bootstrap_form", "~> 5.4"
 gem "dartsass-rails"
 gem "devise", "~> 5.0", ">= 5.0.4"
 
+# Login with Google (Devise + OmniAuth) [https://github.com/zquestz/omniauth-google-oauth2]
+gem "omniauth-google-oauth2", "~> 1.2"
+# Only allow POST to start an OmniAuth login (CVE-2015-9284)
+gem "omniauth-rails_csrf_protection", "~> 2.0"
+
 # Pagination [https://github.com/ddnexus/pagy]
 gem "pagy", "~> 43.6"
 
