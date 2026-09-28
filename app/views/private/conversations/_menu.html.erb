@@ -11,8 +11,13 @@
     <div id="conversations-menu-items">
       <%= render "private/conversations/menu/items", menu: menu %>
     </div>
-    <%= link_to messenger_path, class: "conversations-dropdown-footer" do %>
-      Open messenger <i class="bi bi-arrow-right" aria-hidden="true"></i>
-    <% end %>
+    <div class="conversations-dropdown-footer">
+      <%= link_to new_group_conversation_path do %>
+        <i class="bi bi-people" aria-hidden="true"></i> New group
+      <% end %>
+      <%= link_to messenger_path do %>
+        Open messenger <i class="bi bi-arrow-right" aria-hidden="true"></i>
+      <% end %>
+    </div>
   </div>
 </li>

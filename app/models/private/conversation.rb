@@ -1,4 +1,6 @@
 class Private::Conversation < ApplicationRecord
+  include ConversationsMenuBroadcasts
+
   self.table_name = "private_conversations"
 
   has_many :messages,
@@ -28,22 +30,6 @@ class Private::Conversation < ApplicationRecord
   # Marks the other person's messages as seen by the user; returns how many changed
   def mark_as_seen_by(user)
     messages.unseen_by(user).update_all(seen: true, updated_at: Time.current)
-  end
-
-  # Refreshes the user's navbar conversations menu, unread badge and messenger list (all their tabs)
-  def broadcast_menu_to(user)
-    menu = Private::ConversationsMenu.new(user)
-    navbar_menu = Private::ConversationsMenu.new(user, limit: Private::ConversationsMenu::NAVBAR_LIMIT)
-
-    broadcast_replace_to user, :private_conversations,
-                         target: "unseen-conversations",
-                         partial: "private/conversations/menu/unseen_badge", locals: { menu: menu }
-    broadcast_update_to user, :private_conversations,
-                        target: "conversations-menu-items",
-                        partial: "private/conversations/menu/items", locals: { menu: navbar_menu }
-    broadcast_update_to user, :private_conversations,
-                        target: "messenger-conversations",
-                        partial: "messengers/conversations_list", locals: { menu: menu, selected: nil }
   end
 
   private

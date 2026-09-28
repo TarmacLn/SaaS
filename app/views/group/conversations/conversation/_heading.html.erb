@@ -1,0 +1,20 @@
+<div class="conversation-heading-bar">
+  <button type="button" class="conversation-heading" data-action="conversation-window#toggle"
+          aria-expanded="false" data-conversation-window-target="toggle">
+    <span class="post-avatar group-avatar" aria-hidden="true"><i class="bi bi-people-fill"></i></span>
+    <span class="contact-name-notif"><%= conversation.name %></span>
+  </button>
+
+  <%= link_to edit_group_conversation_path(conversation), class: "add-people-to-chat",
+              title: "Add people", "aria-label": "Add people to #{conversation.name}",
+              data: { turbo_frame: "_top" } do %>
+    <i class="bi bi-person-plus" aria-hidden="true"></i>
+  <% end %>
+
+  <%= button_to close_group_conversation_path(conversation),
+                class: "close-conversation",
+                title: "Close",
+                "aria-label": "Close #{conversation.name}" do %>
+    <i class="bi bi-x-lg" aria-hidden="true"></i>
+  <% end %>
+</div>

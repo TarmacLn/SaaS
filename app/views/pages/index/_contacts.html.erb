@@ -3,4 +3,7 @@
   <div id="contacts-list">
     <%= render "contacts/list", user: current_user %>
   </div>
+  <%= link_to new_group_conversation_path, class: "new-group-link" do %>
+    <i class="bi bi-people" aria-hidden="true"></i> New group
+  <% end %>
 </section>

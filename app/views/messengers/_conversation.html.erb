@@ -1,15 +1,27 @@
-<% recipient = private_conv_recipient(conversation) %>
 <div class="messenger-conversation"
      data-controller="conversation-window"
      data-conversation-window-expanded-value="true"
-     data-conversation-window-mark-seen-url-value="<%= mark_as_seen_private_conversation_path(conversation) %>"
+     data-conversation-window-mark-seen-url-value="<%= conversation_mark_as_seen_path(conversation) %>"
      data-action="click->conversation-window#markSeen">
   <header class="messenger-conversation-heading">
-    <span class="post-avatar" aria-hidden="true"><%= user_initial(recipient) %></span>
-    <span class="contact-name-notif"><%= recipient.name %></span>
-    <span id="pc<%= conversation.id %>-contact-button" class="window-contact-button">
-      <%= render "contacts/window_button", viewer: current_user, other: recipient %>
-    </span>
+    <% if group_conversation?(conversation) %>
+      <span class="post-avatar group-avatar" aria-hidden="true"><i class="bi bi-people-fill"></i></span>
+      <span class="contact-name-notif">
+        <%= conversation.name %>
+        <small class="group-members-count"><%= pluralize(conversation.users.size, "member") %></small>
+      </span>
+      <%= link_to edit_group_conversation_path(conversation), class: "add-people-to-chat",
+                  title: "Add people", "aria-label": "Add people to #{conversation.name}" do %>
+        <i class="bi bi-person-plus" aria-hidden="true"></i>
+      <% end %>
+    <% else %>
+      <% recipient = private_conv_recipient(conversation) %>
+      <span class="post-avatar" aria-hidden="true"><%= user_initial(recipient) %></span>
+      <span class="contact-name-notif"><%= recipient.name %></span>
+      <span id="pc<%= conversation.id %>-contact-button" class="window-contact-button">
+        <%= render "contacts/window_button", viewer: current_user, other: recipient %>
+      </span>
+    <% end %>
   </header>
 
   <div class="conversation-body" data-conversation-window-target="body">

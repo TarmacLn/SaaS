@@ -1,10 +1,15 @@
 <% content_for :title, "Messenger" %>
 
 <div class="container messenger" data-controller="messenger"
-     data-messenger-selected-value="<%= @conversation&.id %>">
+     data-messenger-selected-value="<%= conversation_window_id(@conversation) if @conversation %>">
   <div class="row g-0 messenger-panel">
     <aside class="col-md-4 messenger-sidebar">
-      <h1 class="messenger-title">Messenger</h1>
+      <div class="messenger-sidebar-header">
+        <h1 class="messenger-title">Messenger</h1>
+        <%= link_to new_group_conversation_path, class: "new-group-link", title: "New group" do %>
+          <i class="bi bi-people" aria-hidden="true"></i> New group
+        <% end %>
+      </div>
       <nav id="messenger-conversations" aria-label="Conversations" data-messenger-target="list">
         <%= render "messengers/conversations_list", menu: @menu, selected: @conversation %>
       </nav>
@@ -16,7 +21,7 @@
       <% else %>
         <div class="messenger-placeholder">
           <i class="bi bi-chat-square-text" aria-hidden="true"></i>
-          <p>Start a conversation from someone's post, and it will show up here.</p>
+          <p>Start a conversation from someone's post, or create a group with your contacts, and it will show up here.</p>
         </div>
       <% end %>
     </section>

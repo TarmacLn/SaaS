@@ -1,4 +1,4 @@
-<%= form_with url: private_messages_path,
+<%= form_with url: conversation_create_message_path(conversation),
               id: conversation_form_id(conversation),
               class: "send-private-message",
               data: { action: "keydown.enter->conversation-window#submitOnEnter" } do %>

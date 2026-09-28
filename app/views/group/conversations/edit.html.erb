@@ -1,0 +1,27 @@
+<% content_for :title, "Add people to #{@conversation.name}" %>
+
+<div class="container new-post group-form-page">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <%= link_to "← Back", messenger_group_path(@conversation), class: "back-link" %>
+      <h1>Add people to <%= @conversation.name %></h1>
+
+      <p class="group-members">
+        Members: <%= @conversation.users.order(:name).map(&:name).to_sentence %>
+      </p>
+
+      <%= form_with model: @conversation, url: group_conversation_path(@conversation), method: :patch,
+                    scope: :group_conversation, class: "post-form" do |f| %>
+        <% if @conversation.errors.any? %>
+          <div class="alert alert-danger"><%= @conversation.errors.full_messages.to_sentence %></div>
+        <% end %>
+
+        <%= render "group/conversations/contacts_checkboxes", contacts: @contacts,
+                   legend: "Add from your contacts",
+                   empty_text: "All your contacts are already in this group." %>
+
+        <%= f.submit "Add to group", class: "btn btn-interested w-100", disabled: @contacts.empty? %>
+      <% end %>
+    </div>
+  </div>
+</div>

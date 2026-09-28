@@ -1,0 +1,21 @@
+<%# Avatar, name, latest message and time of a private or group conversation %>
+<% last_message = menu.last_message(conversation) %>
+<% if group_conversation?(conversation) %>
+  <span class="post-avatar group-avatar" aria-hidden="true"><i class="bi bi-people-fill"></i></span>
+  <% name = conversation.name %>
+<% else %>
+  <% other = conversation.opposed_user(menu.user) %>
+  <span class="post-avatar" aria-hidden="true"><%= user_initial(other) %></span>
+  <% name = other.name %>
+<% end %>
+<span class="conversation-item-text">
+  <span class="conversation-item-name"><%= name %></span>
+  <% if last_message %>
+    <span class="conversation-item-snippet">
+      <% if last_message.user_id == menu.user.id %>You: <% elsif group_conversation?(conversation) %><%= last_message.user.name %>: <% end %><%= truncate(last_message.body, length: 60) %>
+    </span>
+  <% end %>
+</span>
+<% if last_message %>
+  <%= local_time_tag last_message.created_at, class: "conversation-item-time" %>
+<% end %>

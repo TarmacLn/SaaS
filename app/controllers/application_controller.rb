@@ -24,14 +24,18 @@ class ApplicationController < ActionController::Base
 
   def opened_conversations_windows
     if user_signed_in?
-      # opened conversations, newest first; only ones this user takes part in
-      conversations = Private::Conversation.for_user(current_user)
-                                           .includes(:sender, :recipient)
-                                           .where(id: opened_conversation_ids)
-                                           .index_by(&:id)
-      @private_conversations_windows = opened_conversation_ids.reverse.filter_map { |id| conversations[id] }
+      @private_conversations_windows = opened_windows(Private::Conversation.includes(:sender, :recipient))
+      @group_conversations_windows = opened_windows(Group::Conversation.all)
     else
       @private_conversations_windows = []
+      @group_conversations_windows = []
     end
+  end
+
+  # opened conversations, newest first; only ones this user takes part in
+  def opened_windows(scope)
+    ids = opened_conversation_ids(scope.klass)
+    conversations = scope.for_user(current_user).where(id: ids).index_by(&:id)
+    ids.reverse.filter_map { |id| conversations[id] }
   end
 end

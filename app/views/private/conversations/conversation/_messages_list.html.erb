@@ -3,6 +3,7 @@
   <!-- messages -->
   <ul id="<%= conversation_messages_id(conversation) %>" data-controller="message-dates">
     <%= render load_private_messages(conversation, messages), conversation: conversation, messages: messages %>
-    <%= render partial: "private/messages/message", collection: messages, locals: { viewer: current_user } %>
+    <%= render partial: conversation_message_partial(conversation), collection: messages, as: :message,
+               locals: { viewer: current_user, last_read_id: conversation_last_read_id(conversation) } %>
   </ul>
 </div>
