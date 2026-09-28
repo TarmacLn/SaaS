@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
     if user_signed_in?
       # opened conversations, newest first; only ones this user takes part in
       conversations = Private::Conversation.for_user(current_user)
-                                           .includes(:sender, :recipient, messages: :user)
+                                           .includes(:sender, :recipient)
                                            .where(id: opened_conversation_ids)
                                            .index_by(&:id)
       @private_conversations_windows = opened_conversation_ids.reverse.filter_map { |id| conversations[id] }

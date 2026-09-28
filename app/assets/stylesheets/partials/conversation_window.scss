@@ -104,6 +104,7 @@ $chatWindowWidth: 320px;
 }
 
 .messages-list {
+  overflow-anchor: none; // scroll position is kept by conversation_window_controller.js
   height: 300px;
   max-height: 45vh;
   overflow-x: hidden;
@@ -118,6 +119,26 @@ $chatWindowWidth: 320px;
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+}
+
+// Loader at the top of the messages (older_messages_controller.js)
+.load-more-messages {
+  align-self: center;
+  padding: 6px 0;
+  color: #7a8081;
+  font-size: 16px;
+  font-size: 1.6rem;
+
+  .bi {
+    display: inline-block;
+    animation: spin-loader 1s linear infinite;
+  }
+}
+
+@keyframes spin-loader {
+  to {
+    transform: rotate(360deg);
   }
 }
 

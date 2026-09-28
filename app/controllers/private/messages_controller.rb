@@ -1,6 +1,18 @@
 class Private::MessagesController < ApplicationController
   before_action :authenticate_user!
 
+  # Older messages of a conversation, for scrolling up in its window
+  def index
+    @conversation = Private::Conversation.for_user(current_user).find(params[:conversation_id])
+    older = @conversation.messages
+    older = older.where(id: ...params[:before].to_i) if params[:before].present?
+    @messages = older.order(id: :desc).limit(Private::ConversationsHelper::MESSAGES_PER_PAGE).to_a.reverse
+
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
+
   def create
     @conversation = Private::Conversation.for_user(current_user).find(params[:conversation_id])
     @message = @conversation.messages.build(user: current_user, body: params[:body])

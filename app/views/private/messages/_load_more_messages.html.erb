@@ -1,0 +1,10 @@
+<%# Loads the batch of messages before the first one shown, once scrolled into view %>
+<li class="load-more-messages"
+    id="<%= conversation_load_more_id(conversation) %>"
+    data-controller="older-messages"
+    data-older-messages-url-value="<%= private_messages_path(conversation_id: conversation.id, before: messages.first.id) %>">
+  <span class="loading-more-messages" role="status">
+    <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
+    <span class="visually-hidden">Loading older messages</span>
+  </span>
+</li>
