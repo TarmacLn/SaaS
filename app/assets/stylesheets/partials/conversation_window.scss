@@ -121,6 +121,24 @@ $chatWindowWidth: 320px;
   }
 }
 
+// Date line above the first message of each day (message_dates_controller.js)
+.messages-date {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0 4px;
+  color: #7a8081;
+  font-size: 11px;
+  font-size: 1.1rem;
+  font-weight: 600;
+
+  &::before, &::after {
+    flex: 1;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    content: "";
+  }
+}
+
 .message-received, .message-sent {
   max-width: 80%;
   padding: 8px 12px;
@@ -153,6 +171,12 @@ $chatWindowWidth: 320px;
   background-color: white;
   color: #1f2324;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06);
+
+  // Not read yet
+  &.unseen {
+    box-shadow: inset 3px 0 0 #4361ee, 0 1px 1px rgba(0, 0, 0, 0.06);
+    font-weight: 600;
+  }
 }
 
 .send-private-message {

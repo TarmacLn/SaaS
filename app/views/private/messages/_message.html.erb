@@ -1,4 +1,4 @@
-<li class="<%= private_message_class(message) %>" id="<%= dom_id(message) %>">
+<li class="<%= sent_or_received(message, current_user) %> <%= seen_or_unseen(message) %>" id="<%= dom_id(message) %>">
   <%= message.body %>
   <%= local_time_tag message.created_at %>
 </li>

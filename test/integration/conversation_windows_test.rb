@@ -41,9 +41,10 @@ class ConversationWindowsTest < ActionDispatch::IntegrationTest
     assert_match %(<turbo-stream action="prepend" target="conversations-windows">), response.body
     get root_path
     assert_select @window do
+      assert_select "ul[data-controller=message-dates]"
       assert_select ".contact-name-notif", text: users(:two).name
       assert_select ".message-sent", text: /tennis/
-      assert_select ".message-received", text: /Saturday/
+      assert_select ".message-received.unseen", text: /Saturday/
     end
 
     post close_private_conversation_path(@conversation), as: :turbo_stream

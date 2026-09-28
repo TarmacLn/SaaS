@@ -9,11 +9,6 @@ class Private::ConversationsHelperTest < ActionView::TestCase
     assert_equal users(:two), private_conv_recipient(private_conversations(:one_and_two))
   end
 
-  test "private_message_class tells sent and received messages apart" do
-    assert_equal "message-sent", private_message_class(private_messages(:hello))
-    assert_equal "message-received", private_message_class(private_messages(:reply))
-  end
-
   test "private_conversation_messages returns the latest messages, oldest first" do
     conversation = private_conversations(:one_and_two)
     conversation.messages.create!(user: users(:one), body: "Newest message")

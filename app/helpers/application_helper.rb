@@ -2,6 +2,7 @@ module ApplicationHelper
   include NavigationHelper
   # Conversation windows are rendered on every page
   include Private::ConversationsHelper
+  include Private::MessagesHelper
 
   # <time> in UTC that the local-time Stimulus controller shows in the viewer's time zone.
   # The text inside is the fallback when JavaScript doesn't run.

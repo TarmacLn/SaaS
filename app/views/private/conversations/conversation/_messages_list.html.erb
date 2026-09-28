@@ -1,6 +1,6 @@
 <div class="messages-list" data-conversation-window-target="messages">
   <!-- messages -->
-  <ul id="<%= conversation_messages_id(conversation) %>">
+  <ul id="<%= conversation_messages_id(conversation) %>" data-controller="message-dates">
     <%= render partial: "private/messages/message", collection: private_conversation_messages(conversation) %>
   </ul>
 </div>
