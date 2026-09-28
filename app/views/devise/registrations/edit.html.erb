@@ -1,55 +1,63 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<% content_for :title, "Edit profile" %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<div class="container new-post profile-page">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <%= link_to "← Back", root_path, class: "back-link" %>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, autocomplete: "name" %>
-  </div>
+      <div class="profile-header">
+        <span class="post-avatar profile-avatar" aria-hidden="true"><%= user_initial(resource) %></span>
+        <div>
+          <h1>Edit profile</h1>
+          <p class="profile-subtitle">
+            <% if resource.google_account? %>
+              <i class="bi bi-google" aria-hidden="true"></i> Logs in with Google
+            <% else %>
+              Member since <%= l(resource.created_at.to_date, format: :long) %>
+            <% end %>
+          </p>
+        </div>
+      </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+      <%= bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name),
+                             html: { method: :put, class: "post-form profile-form" }) do |f| %>
+        <%= f.alert_message "Please fix the problems below." %>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
+        <h2 class="profile-section-title">Profile</h2>
+        <%= f.text_field :name, autocomplete: "name", help: "Shown publicly on your posts and messages" %>
+        <%= f.email_field :email, autocomplete: "email" %>
 
-  <% if resource.google_only? %>
-    <p class="google-only-note">
-      You log in with Google, so your account has no password here.
-      Manage your password in your Google account.
-    </p>
-  <% else %>
-    <div class="field">
-      <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-      <%= f.password_field :password, autocomplete: "new-password" %>
-      <% if @minimum_password_length %>
-        <br />
-        <em><%= @minimum_password_length %> characters minimum</em>
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <p class="profile-hint">Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
+        <% end %>
+
+        <h2 class="profile-section-title">Password</h2>
+        <% if resource.google_only? %>
+          <p class="google-only-note">
+            <i class="bi bi-google" aria-hidden="true"></i>
+            You log in with Google, so your account has no password here.
+            Manage your password in your Google account.
+          </p>
+        <% else %>
+          <%= f.password_field :password, autocomplete: "new-password", label: "New password",
+                               help: "Leave blank to keep your current password" +
+                                     (@minimum_password_length ? " (at least #{@minimum_password_length} characters)" : "") %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", label: "Confirm new password" %>
+          <%= f.password_field :current_password, autocomplete: "current-password",
+                               label: "Current password",
+                               help: "Needed to confirm any change to your profile" %>
+        <% end %>
+
+        <%= f.submit "Save changes", class: "btn btn-interested w-100" %>
       <% end %>
-    </div>
 
-    <div class="field">
-      <%= f.label :password_confirmation %><br />
-      <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+      <section class="danger-zone" aria-labelledby="danger-zone-title">
+        <h2 id="danger-zone-title" class="profile-section-title">Delete account</h2>
+        <p>This permanently deletes your account, posts, messages and contacts.</p>
+        <%= button_to "Delete my account", registration_path(resource_name), method: :delete,
+                      class: "btn btn-delete-account",
+                      form: { data: { turbo_confirm: "Delete your account and everything in it? This can't be undone." } } %>
+      </section>
     </div>
-
-    <div class="field">
-      <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-      <%= f.password_field :current_password, autocomplete: "current-password" %>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
   </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>
+</div>
