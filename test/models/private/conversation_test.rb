@@ -51,4 +51,16 @@ class Private::ConversationTest < ActiveSupport::TestCase
     loner = User.create!(name: "Loner", email: "loner@example.com", password: "password")
     assert_empty Private::Conversation.between_users(users(:one).id, loner.id)
   end
+
+  test "opposed_user returns the other user of the conversation" do
+    assert_equal users(:two), conversation.opposed_user(users(:one))
+    assert_equal users(:one), conversation.opposed_user(users(:two))
+  end
+
+  test "for_user finds conversations the user started or received" do
+    assert_equal [ conversation ], Private::Conversation.for_user(users(:one)).to_a
+    assert_equal [ conversation ], Private::Conversation.for_user(users(:two)).to_a
+    loner = User.create!(name: "Loner", email: "loner@example.com", password: "password")
+    assert_empty Private::Conversation.for_user(loner)
+  end
 end
