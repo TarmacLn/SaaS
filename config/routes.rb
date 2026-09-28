@@ -23,11 +23,14 @@ Rails.application.routes.draw do
   # root "posts#index"
   root to: "pages#index"
 
+  get "messenger(/:conversation_id)", to: "messengers#index", as: :messenger
+
   namespace :private do
     resources :conversations, only: [ :create ] do
       member do
         post :close
         post :open
+        post :mark_as_seen
       end
     end
     resources :messages, only: [ :index, :create ]

@@ -18,7 +18,6 @@ class Private::MessagesController < ApplicationController
     @message = @conversation.messages.build(user: current_user, body: params[:body])
 
     if @message.save
-      @conversation.touch
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: [

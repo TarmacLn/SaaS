@@ -1,0 +1,24 @@
+<% content_for :title, "Messenger" %>
+
+<div class="container messenger" data-controller="messenger"
+     data-messenger-selected-value="<%= @conversation&.id %>">
+  <div class="row g-0 messenger-panel">
+    <aside class="col-md-4 messenger-sidebar">
+      <h1 class="messenger-title">Messenger</h1>
+      <nav id="messenger-conversations" aria-label="Conversations" data-messenger-target="list">
+        <%= render "messengers/conversations_list", menu: @menu, selected: @conversation %>
+      </nav>
+    </aside>
+
+    <section class="col-md-8 messenger-main">
+      <% if @conversation %>
+        <%= render "messengers/conversation", conversation: @conversation %>
+      <% else %>
+        <div class="messenger-placeholder">
+          <i class="bi bi-chat-square-text" aria-hidden="true"></i>
+          <p>Start a conversation from someone's post, and it will show up here.</p>
+        </div>
+      <% end %>
+    </section>
+  </div>
+</div>

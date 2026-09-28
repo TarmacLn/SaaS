@@ -1,0 +1,278 @@
+// Conversations menu in the navbar (private/conversations/_menu)
+.conversations-menu {
+  .dropdown-toggle {
+    position: relative;
+    font-size: 18px;
+    font-size: 1.8rem;
+
+    &::after {
+      display: none; // no caret, just the icon
+    }
+  }
+}
+
+.unseen-conversations-badge {
+  position: absolute;
+  top: 2px;
+  right: -2px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 50px;
+  background: #e5484d;
+  color: white;
+  font-size: 11px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+}
+
+.conversations-dropdown {
+  width: 340px;
+  max-width: calc(100vw - 20px);
+  padding: 0;
+  overflow: hidden;
+  border: none;
+  border-radius: 12px;
+  background: white !important; // override the navbar's dark dropdown style
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+// nav.navbar makes every link white; this dropdown is white
+nav.navbar .conversations-dropdown a {
+  color: $navbarColor !important;
+}
+
+.conversations-dropdown-header {
+  padding: 12px 16px 8px;
+  color: #1f2324;
+  font-size: 15px;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+#conversations-menu-items {
+  max-height: 60vh;
+  overflow-y: auto;
+
+  .button_to {
+    margin: 0;
+  }
+}
+
+.conversations-dropdown-footer {
+  display: block;
+  padding: 10px 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  font-size: 13px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+
+  &:hover {
+    background: $backgroundColor;
+  }
+}
+
+.conversations-empty {
+  margin: 0;
+  padding: 16px;
+  color: #7a8081;
+  font-size: 13px;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+// One conversation in the navbar menu or the messenger list
+.conversation-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  color: #1f2324 !important;
+  font-size: 14px;
+  font-size: 1.4rem;
+  text-align: left;
+  text-decoration: none;
+
+  &:hover {
+    background: $backgroundColor !important;
+  }
+
+  .post-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: $navbarColor;
+    color: white;
+    font-size: 13px;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+
+  .conversation-item-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .conversation-item-name {
+    font-weight: 600;
+  }
+
+  .conversation-item-snippet {
+    overflow: hidden;
+    color: #7a8081;
+    font-size: 13px;
+    font-size: 1.3rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .conversation-item-time {
+    align-self: flex-start;
+    flex-shrink: 0;
+    color: #7a8081;
+    font-size: 11px;
+    font-size: 1.1rem;
+  }
+
+  // Has messages the user hasn't seen
+  &.unseen-conv {
+    background: rgba(67, 97, 238, 0.06);
+
+    .conversation-item-snippet {
+      color: #1f2324;
+      font-weight: 600;
+    }
+
+    .conversation-item-time {
+      color: #4361ee;
+      font-weight: 600;
+    }
+  }
+
+  &.selected {
+    background: rgba($navbarColor, 0.08) !important;
+  }
+}
+
+// Messenger page
+.messenger {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.messenger-panel {
+  overflow: hidden;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.messenger-sidebar {
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+
+  #messenger-conversations {
+    max-height: calc(100vh - 190px);
+    overflow-y: auto;
+  }
+}
+
+.messenger-title {
+  margin: 0;
+  padding: 18px 16px 12px;
+  font-size: 22px;
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+.messenger-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 420px;
+}
+
+.messenger-conversation {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  .conversation-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  .messages-list {
+    flex: 1;
+    height: calc(100vh - 290px);
+    max-height: none;
+    min-height: 260px;
+  }
+}
+
+.messenger-conversation-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 56px;
+  padding: 0 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 15px;
+  font-size: 1.5rem;
+  font-weight: 600;
+
+  .post-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: $navbarColor;
+    color: white;
+    font-size: 13px;
+    font-size: 1.3rem;
+  }
+}
+
+.messenger-placeholder {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: #7a8081;
+  font-size: 14px;
+  font-size: 1.4rem;
+  text-align: center;
+
+  i {
+    margin-bottom: 8px;
+    font-size: 40px;
+    font-size: 4rem;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .messenger-sidebar {
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+    #messenger-conversations {
+      max-height: 35vh;
+    }
+  }
+}

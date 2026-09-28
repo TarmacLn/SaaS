@@ -1,6 +1,6 @@
 class Private::ConversationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_conversation, only: [ :open, :close ]
+  before_action :set_conversation, only: [ :open, :close, :mark_as_seen ]
 
   def create
     @post = Post.find(params[:post_id])
@@ -48,6 +48,12 @@ class Private::ConversationsController < ApplicationController
       format.turbo_stream { render turbo_stream: turbo_stream.remove(helpers.conversation_window_id(@conversation)) }
       format.html { redirect_back fallback_location: root_path }
     end
+  end
+
+  # The other person's messages have been read (window opened or clicked)
+  def mark_as_seen
+    @conversation.broadcast_menu_to(current_user) if @conversation.mark_as_seen_by(current_user).positive?
+    head :no_content
   end
 
   private

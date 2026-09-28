@@ -9,7 +9,9 @@ export default class extends Controller {
 
   async connect() {
     try {
-      if (!document.getElementById(this.windowIdValue)) await this.openWindow()
+      // No window area on the messenger page; the conversation list there updates by itself
+      const hasWindows = document.getElementById("conversations-windows")
+      if (hasWindows && !document.getElementById(this.windowIdValue)) await this.openWindow()
     } finally {
       this.element.remove()
     }

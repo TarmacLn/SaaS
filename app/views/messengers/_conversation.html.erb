@@ -1,0 +1,16 @@
+<% recipient = private_conv_recipient(conversation) %>
+<div class="messenger-conversation"
+     data-controller="conversation-window"
+     data-conversation-window-expanded-value="true"
+     data-conversation-window-mark-seen-url-value="<%= mark_as_seen_private_conversation_path(conversation) %>"
+     data-action="click->conversation-window#markSeen">
+  <header class="messenger-conversation-heading">
+    <span class="post-avatar" aria-hidden="true"><%= recipient.name.to_s.strip.first&.upcase || "?" %></span>
+    <span class="contact-name-notif"><%= recipient.name %></span>
+  </header>
+
+  <div class="conversation-body" data-conversation-window-target="body">
+    <%= render "private/conversations/conversation/messages_list", conversation: conversation %>
+    <%= render "private/conversations/conversation/new_message_form", conversation: conversation, user: current_user %>
+  </div>
+</div>

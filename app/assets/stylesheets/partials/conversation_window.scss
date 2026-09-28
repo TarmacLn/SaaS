@@ -88,6 +88,15 @@ $chatWindowWidth: 320px;
   }
 }
 
+// Window with messages the user hasn't read yet
+.conversation-window.has-unseen .conversation-heading-bar {
+  background-color: #4361ee;
+
+  .close-conversation {
+    background-color: #4361ee;
+  }
+}
+
 .close-conversation {
   width: 44px;
   height: 44px;

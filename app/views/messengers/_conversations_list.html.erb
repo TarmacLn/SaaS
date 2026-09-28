@@ -1,0 +1,25 @@
+<% if menu.conversations.empty? %>
+  <p class="conversations-empty">No conversations yet</p>
+<% else %>
+  <% menu.conversations.each do |conversation| %>
+    <% other = conversation.opposed_user(menu.user) %>
+    <% last_message = menu.last_message(conversation) %>
+    <%= link_to messenger_path(conversation_id: conversation.id),
+                class: ["conversation-item", ("unseen-conv" if menu.unseen?(conversation)),
+                        ("selected" if conversation == selected)],
+                data: { conversation_id: conversation.id } do %>
+      <span class="post-avatar" aria-hidden="true"><%= other.name.to_s.strip.first&.upcase || "?" %></span>
+      <span class="conversation-item-text">
+        <span class="conversation-item-name"><%= other.name %></span>
+        <% if last_message %>
+          <span class="conversation-item-snippet">
+            <%= "You: " if last_message.user_id == menu.user.id %><%= truncate(last_message.body, length: 60) %>
+          </span>
+        <% end %>
+      </span>
+      <% if last_message %>
+        <%= local_time_tag last_message.created_at, class: "conversation-item-time" %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

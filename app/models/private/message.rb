@@ -5,9 +5,13 @@ class Private::Message < ApplicationRecord
   belongs_to :conversation,
              class_name: "Private::Conversation",
              foreign_key: :conversation_id,
-             inverse_of: :messages
+             inverse_of: :messages,
+             touch: true # keeps conversations ordered by their latest message
 
   validates :body, presence: true, length: { maximum: 1000 }
+
+  # messages from the other person in a conversation that the user hasn't seen yet
+  scope :unseen_by, ->(user) { where(seen: false).where.not(user_id: user.id) }
 
   after_create_commit :broadcast_to_participants
 
@@ -29,5 +33,8 @@ class Private::Message < ApplicationRecord
                         target: "incoming-messages",
                         partial: "private/messages/incoming",
                         locals: { message: self }
+
+    # New latest message and unread count in both users' conversations menu
+    [ conversation.sender, conversation.recipient ].each { |participant| conversation.broadcast_menu_to(participant) }
   end
 end

@@ -1,3 +1,5 @@
+<%= render "private/conversations/menu", menu: @conversations_menu %>
+
 <li class="nav-item dropdown pc-menu d-none d-sm-block">
   <a id="user-settings" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
     <span id="user-name"><%= current_user.name %></span>
@@ -9,6 +11,9 @@
   </ul>
 </li>
 
+<li class="nav-item mobile-menu d-sm-none">
+  <%= link_to 'Messenger', messenger_path, class: 'nav-link' %>
+</li>
 <li class="nav-item mobile-menu d-sm-none">
   <%= link_to 'Edit Profile', edit_user_registration_path, class: 'nav-link' %>
 </li>
