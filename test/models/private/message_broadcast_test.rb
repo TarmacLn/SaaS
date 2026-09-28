@@ -68,6 +68,7 @@ class Private::MessageBroadcastTest < ActiveSupport::TestCase
 
   test "the recipient's badge counts the new unread conversation" do
     @conversation.mark_as_seen_by(users(:two))
+    group_conversations(:study_group).mark_as_seen_by(users(:two))
     broadcasts = capture_turbo_stream_broadcasts([ users(:two), :private_conversations ]) { send_message(from: users(:one)) }
 
     badge = broadcasts.find { |stream| stream["target"] == "unseen-conversations" }

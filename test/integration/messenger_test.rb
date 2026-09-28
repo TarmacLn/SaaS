@@ -3,6 +3,8 @@ require "test_helper"
 class MessengerTest < ActionDispatch::IntegrationTest
   setup do
     @conversation = private_conversations(:one_and_two)
+    # these tests are about private conversations: the fixture group is already read
+    Group::Membership.update_all(last_read_message_id: Group::Message.maximum(:id))
   end
 
   test "navbar shows the conversations menu with the unread badge" do

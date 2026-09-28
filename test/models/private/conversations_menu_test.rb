@@ -3,6 +3,7 @@ require "test_helper"
 class Private::ConversationsMenuTest < ActiveSupport::TestCase
   setup do
     @conversation = private_conversations(:one_and_two)
+    Group::Membership.update_all(last_read_message_id: Group::Message.maximum(:id))
     @third = User.create!(name: "Third", email: "third@example.com", password: "password")
   end
 
@@ -11,11 +12,11 @@ class Private::ConversationsMenuTest < ActiveSupport::TestCase
     newer.messages.build(user: @third, body: "Newer conversation")
     newer.save!
 
-    assert_equal [ newer, @conversation ], Private::ConversationsMenu.new(users(:one)).conversations
-    assert_equal [ @conversation ], Private::ConversationsMenu.new(users(:two)).conversations
+    assert_equal [ newer, @conversation ], private_conversations_for(users(:one))
+    assert_equal [ @conversation ], private_conversations_for(users(:two))
 
     @conversation.messages.create!(user: users(:two), body: "Bump")
-    assert_equal [ @conversation, newer ], Private::ConversationsMenu.new(users(:one)).conversations
+    assert_equal [ @conversation, newer ], private_conversations_for(users(:one))
   end
 
   test "the navbar limit" do
@@ -33,5 +34,9 @@ class Private::ConversationsMenuTest < ActiveSupport::TestCase
   test "last_message is the newest message of each conversation" do
     latest = @conversation.messages.create!(user: users(:one), body: "Latest one")
     assert_equal latest, Private::ConversationsMenu.new(users(:two)).last_message(@conversation)
+  end
+
+  def private_conversations_for(user)
+    Private::ConversationsMenu.new(user).conversations.grep(Private::Conversation)
   end
 end
