@@ -8,6 +8,7 @@ html {
 
 body {
   background: $backgroundColor;
+  padding-top: 70px; // offset for the fixed-top navbar
   font-size: 14px;
   font-size: 1.4rem;
 }
