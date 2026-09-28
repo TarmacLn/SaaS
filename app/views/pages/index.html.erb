@@ -1,14 +1,7 @@
 <div class="container" data-controller="post-modal">
   <div class="row">
-    <div id="side-menu"  class="col-sm-3">
-    </div><!-- side-menu -->
-
-    <div id="main-content" class="col-sm-9">
-      <div class="row g-4">
-        <%= render @posts %>
-      </div><!-- row -->
-    </div><!-- main-content -->
-
+    <%= render "pages/index/side_menu" %>
+    <%= render "pages/index/main_content" %>
   </div><!-- row -->
 
   <%= render "posts/modal" %>

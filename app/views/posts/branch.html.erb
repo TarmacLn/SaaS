@@ -1,0 +1,12 @@
+<% content_for :title, branch_page_title(@branch) %>
+
+<div id="branch-main-content" class="container branch-<%= @branch %>" data-controller="post-modal">
+  <%= link_to "← Home", root_path, class: "back-link" %>
+  <h1 class="page-title"><%= branch_page_title(@branch) %></h1>
+
+  <div class="row g-4">
+    <%= render @posts %>
+  </div><!-- row -->
+
+  <%= render "posts/modal" %>
+</div><!-- container -->

@@ -32,5 +32,28 @@
     li:hover a, li:hover i {
       color: white;
     }
+    i {
+      margin-right: 8px;
+      font-size: 16px;
+      font-size: 1.6rem;
+      vertical-align: -1px;
+    }
+  }
+
+  .non-signed-in-message {
+    max-width: 195px;
+    margin-top: 24px;
+    padding: 12px 15px;
+    border-radius: 10px;
+    background: rgba($navbarColor, 0.06);
+    color: #5f6566;
+    font-size: 13px;
+    font-size: 1.3rem;
+    line-height: 1.5;
+  }
+
+  .login-button-index {
+    color: $navbarColor;
+    font-weight: 600;
   }
 }

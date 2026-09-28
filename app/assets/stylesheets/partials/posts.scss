@@ -214,8 +214,7 @@ $branchColors: (
   }
 }
 
-.post-page {
-  max-width: 760px;
+.post-page, #branch-main-content {
   padding-top: 20px;
   padding-bottom: 40px;
 
@@ -231,6 +230,18 @@ $branchColors: (
       color: $navbarColor;
     }
   }
+}
+
+#branch-main-content .page-title {
+  margin-bottom: 24px;
+  color: #1f2324;
+  font-size: 28px;
+  font-size: 2.8rem;
+  font-weight: 700;
+}
+
+.post-page {
+  max-width: 760px;
 
   .post-modal {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
