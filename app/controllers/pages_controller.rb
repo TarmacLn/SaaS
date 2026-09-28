@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
   def index
-      @posts = Post.limit(5)
+    @posts = Post.includes(:user, :category).limit(5)
   end
 end

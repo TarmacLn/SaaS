@@ -1,15 +1,26 @@
-<div class="col-sm-3 single-post-card" id=<%= post_path(post.id) %>>
-  <div class="card">
+<div class="col-12 col-sm-6 col-lg-4 single-post-card" id="<%= post_path(post.id) %>">
+  <article class="card post-card branch-<%= post.category.branch %>">
     <div class="card-body">
+      <span class="post-category"><%= post.category.name %></span>
       <h4 class="post-text">
-        <%= truncate(post.title, :length => 60) %>
+        <%= truncate(post.title, length: 60) %>
       </h4>
-      <div class="post-content">
-        <div class="posted-by">Posted by <%= post.user.name %></div>
-        <h3><%= post.title %></h3> 
-        <p><%= post.content %></p>
-        <%= link_to "I'm interested", post_path(post.id), class: 'interested' %>
-      </div>
+      <p class="post-excerpt"><%= post.content %></p>
     </div>
-  </div><!-- card -->
-</div><!-- col-sm-3 -->
+
+    <footer class="post-meta">
+      <span class="post-avatar" aria-hidden="true"><%= post_author_initial(post) %></span>
+      <span class="post-author"><%= post.user.name %></span>
+      <time class="post-time" datetime="<%= post.created_at.iso8601 %>">
+        <%= time_ago_in_words(post.created_at) %> ago
+      </time>
+    </footer>
+
+    <div class="post-content">
+      <div class="posted-by">Posted by <%= post.user.name %></div>
+      <h3><%= post.title %></h3>
+      <p><%= post.content %></p>
+      <%= link_to "I'm interested", post_path(post.id), class: 'interested' %>
+    </div>
+  </article><!-- card -->
+</div><!-- single-post-card -->

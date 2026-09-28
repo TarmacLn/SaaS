@@ -1,0 +1,121 @@
+// Accent color per category branch
+$branchColors: (
+  hobby: #2a9d8f,
+  study: #4361ee,
+  team: #e76f51
+);
+
+.single-post-card {
+  display: flex;
+
+  .post-card {
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-top: 4px solid $navbarColor;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  @each $branch, $color in $branchColors {
+    .branch-#{$branch} {
+      border-top-color: $color;
+
+      .post-category {
+        color: $color;
+        background: rgba($color, 0.1);
+      }
+    }
+  }
+
+  .card-body {
+    padding: 18px 20px 12px;
+  }
+
+  .post-category {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 3px 10px;
+    border-radius: 50px;
+    color: $navbarColor;
+    background: rgba($navbarColor, 0.08);
+    font-size: 11px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .post-text {
+    margin: 0 0 8px;
+    color: #1f2324;
+    font-size: 17px;
+    font-size: 1.7rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .post-excerpt {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0;
+    color: #5f6566;
+    font-size: 14px;
+    font-size: 1.4rem;
+    line-height: 1.5;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    color: #7a8081;
+    font-size: 12px;
+    font-size: 1.2rem;
+  }
+
+  .post-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: $navbarColor;
+    color: white;
+    font-size: 12px;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .post-author {
+    overflow: hidden;
+    color: #3a3f40;
+    font-weight: 500;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .post-time {
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  // Full post, shown later in the post modal
+  .post-content {
+    display: none;
+  }
+}
