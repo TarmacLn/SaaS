@@ -1,0 +1,2 @@
+<% contact = Contact.find_by_users(viewer.id, other.id).first %>
+<%= render add_to_contacts_partial_path(contact, viewer), contact: contact, other: other %>

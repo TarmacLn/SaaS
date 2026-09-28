@@ -1,0 +1,12 @@
+<%= form_with url: conversation_create_message_path(conversation),
+              id: conversation_form_id(conversation),
+              class: "send-private-message",
+              data: { action: "keydown.enter->conversation-window#submitOnEnter" } do %>
+  <%= hidden_field_tag :conversation_id, conversation.id, id: nil %>
+  <%= text_area_tag :body, nil, id: nil, rows: 2, required: true, maxlength: 1000,
+                    class: "form-control", placeholder: "Type a message...",
+                    "aria-label": "Message", data: { conversation_window_target: "input" } %>
+  <%= button_tag type: "submit", class: "send-message", title: "Send", "aria-label": "Send" do %>
+    <i class="bi bi-send" aria-hidden="true"></i>
+  <% end %>
+<% end %>

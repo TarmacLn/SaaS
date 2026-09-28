@@ -1,0 +1,669 @@
+// Conversations menu in the navbar (private/conversations/_menu)
+.conversations-menu {
+  .dropdown-toggle {
+    position: relative;
+    font-size: 18px;
+    font-size: 1.8rem;
+
+    &::after {
+      display: none; // no caret, just the icon
+    }
+  }
+}
+
+.unseen-conversations-badge {
+  position: absolute;
+  top: 2px;
+  right: -2px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 50px;
+  background: #e5484d;
+  color: white;
+  font-size: 11px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+}
+
+.conversations-dropdown {
+  width: 340px;
+  max-width: calc(100vw - 20px);
+  padding: 0;
+  overflow: hidden;
+  border: none;
+  border-radius: 12px;
+  background: white !important; // override the navbar's dark dropdown style
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+// nav.navbar makes every link white; this dropdown is white
+nav.navbar .conversations-dropdown a {
+  color: $navbarColor !important;
+}
+
+.conversations-dropdown-header {
+  padding: 12px 16px 8px;
+  color: #1f2324;
+  font-size: 15px;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+#conversations-menu-items {
+  max-height: 60vh;
+  overflow-y: auto;
+
+  .button_to {
+    margin: 0;
+  }
+}
+
+.conversations-dropdown-footer {
+  display: flex;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+
+  a {
+    flex: 1;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+
+    &:hover {
+      background: $backgroundColor;
+    }
+
+    & + a {
+      border-left: 1px solid rgba(0, 0, 0, 0.06);
+    }
+  }
+}
+
+.conversations-empty {
+  margin: 0;
+  padding: 16px;
+  color: #7a8081;
+  font-size: 13px;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+// One conversation in the navbar menu or the messenger list
+.conversation-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  color: #1f2324 !important;
+  font-size: 14px;
+  font-size: 1.4rem;
+  text-align: left;
+  text-decoration: none;
+
+  &:hover {
+    background: $backgroundColor !important;
+  }
+
+  .post-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: $navbarColor;
+    color: white;
+    font-size: 13px;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+
+  .conversation-item-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .conversation-item-name {
+    font-weight: 600;
+  }
+
+  .conversation-item-snippet {
+    overflow: hidden;
+    color: #7a8081;
+    font-size: 13px;
+    font-size: 1.3rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .conversation-item-time {
+    align-self: flex-start;
+    flex-shrink: 0;
+    color: #7a8081;
+    font-size: 11px;
+    font-size: 1.1rem;
+  }
+
+  // Has messages the user hasn't seen
+  &.unseen-conv {
+    background: rgba(67, 97, 238, 0.06);
+
+    .conversation-item-snippet {
+      color: #1f2324;
+      font-weight: 600;
+    }
+
+    .conversation-item-time {
+      color: #4361ee;
+      font-weight: 600;
+    }
+  }
+
+  &.selected {
+    background: rgba($navbarColor, 0.08) !important;
+  }
+}
+
+// Messenger page: fills the screen below the navbar (body has padding-top: 70px);
+// only the conversations list and the messages scroll, not the page.
+.messenger {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 70px);
+  height: calc(100dvh - 70px); // mobile browsers: excludes the address bar
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.messenger-panel {
+  flex: 1;
+  flex-wrap: nowrap;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.messenger-sidebar {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+
+  #messenger-conversations {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+}
+
+.messenger-title {
+  margin: 0;
+  padding: 18px 16px 12px;
+  font-size: 22px;
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+.messenger-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.messenger-conversation {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+
+  .conversation-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .messages-list {
+    flex: 1;
+    height: auto;
+    max-height: none;
+    min-height: 0;
+  }
+}
+
+.messenger-conversation-heading {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 10px;
+  height: 56px;
+  padding: 0 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 15px;
+  font-size: 1.5rem;
+  font-weight: 600;
+
+  .post-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: $navbarColor;
+    color: white;
+    font-size: 13px;
+    font-size: 1.3rem;
+  }
+}
+
+.messenger-placeholder {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: #7a8081;
+  font-size: 14px;
+  font-size: 1.4rem;
+  text-align: center;
+
+  i {
+    margin-bottom: 8px;
+    font-size: 40px;
+    font-size: 4rem;
+  }
+}
+
+// Phones: conversations list on top (up to a third of the screen), the conversation below
+@media screen and (max-width: 767px) {
+  .messenger {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .messenger-panel {
+    flex-direction: column;
+  }
+
+  .messenger-sidebar {
+    flex: 0 0 auto;
+    max-height: 33%;
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .messenger-title {
+    padding: 12px 16px 8px;
+    font-size: 18px;
+    font-size: 1.8rem;
+  }
+
+  .messenger-main {
+    flex: 1;
+  }
+}
+
+// Contact requests in the navbar (contacts/_requests_menu)
+.contact-request {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-size: 1.4rem;
+
+  .post-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: $navbarColor;
+    color: white;
+    font-size: 13px;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+
+  .contact-request-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .button_to {
+    margin: 0;
+  }
+
+  .btn-accept-contact, .btn-decline-contact {
+    border-radius: 50px;
+    font-size: 12px;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .btn-accept-contact {
+    padding: 4px 12px;
+    background: $navbarColor;
+    color: white;
+
+    &:hover {
+      background: mix(white, $navbarColor, 15%);
+      color: white;
+    }
+  }
+
+  .btn-decline-contact {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    color: #5f6566;
+
+    &:hover {
+      border-color: #e5484d;
+      color: #e5484d;
+    }
+  }
+}
+
+// Contact button in a conversation window's heading
+.window-contact-button {
+  display: contents;
+
+  .button_to {
+    display: contents;
+  }
+}
+
+.add-user-to-contacts, .contact-request-sent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  font-size: 1.6rem;
+}
+
+.add-user-to-contacts:hover, .add-user-to-contacts:focus-visible {
+  background: white;
+  color: $navbarColor;
+}
+
+.contact-request-received {
+  color: #7ee2a8; // someone wants to be your contact
+}
+
+.contact-request-sent {
+  cursor: default;
+  opacity: 0.7;
+}
+
+// On the messenger page the heading is white
+.messenger-conversation-heading {
+  .window-contact-button > *:first-child {
+    margin-left: auto;
+  }
+
+  .add-user-to-contacts, .contact-request-sent {
+    border-radius: 50%;
+    color: $navbarColor;
+
+    &:hover {
+      background: $backgroundColor;
+    }
+  }
+
+  .contact-request-received {
+    color: #2a7d56;
+  }
+}
+
+// Contacts in the home page side menu (pages/index/_contacts)
+.side-contacts {
+  max-width: 195px;
+  margin-top: 24px;
+
+  h4 {
+    margin: 0 0 8px 15px;
+    color: #7a8081;
+    font-size: 12px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .button_to {
+    margin: 0;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 50px;
+    background: none;
+    color: black;
+    font-size: 14px;
+    font-size: 1.4rem;
+    text-align: left;
+
+    &:hover {
+      background: $navbarColor;
+      color: white;
+    }
+  }
+
+  .post-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: $navbarColor;
+    color: white;
+    font-size: 11px;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .contact-item:hover .post-avatar {
+    background: white;
+    color: $navbarColor;
+  }
+
+  .contacts-empty {
+    margin: 0 15px;
+    color: #7a8081;
+    font-size: 13px;
+    font-size: 1.3rem;
+  }
+}
+
+// Group conversations
+.post-avatar.group-avatar {
+  background: #4361ee !important;
+  color: white !important;
+}
+
+.message-author {
+  display: block;
+  margin-bottom: 2px;
+  color: #4361ee;
+  font-size: 11px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.message-sent .message-author {
+  display: none; // your own messages don't need your name
+}
+
+.add-people-to-chat {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  color: white !important;
+  font-size: 16px;
+  font-size: 1.6rem;
+  text-decoration: none;
+
+  &:hover, &:focus-visible {
+    background: white;
+    color: $navbarColor !important;
+  }
+}
+
+.messenger-conversation-heading {
+  .add-people-to-chat {
+    margin-left: auto;
+    border-radius: 50%;
+    color: $navbarColor !important;
+
+    &:hover {
+      background: $backgroundColor;
+    }
+  }
+
+  .group-members-count {
+    margin-left: 6px;
+    color: #7a8081;
+    font-weight: 400;
+  }
+}
+
+.messenger-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 16px;
+
+  .new-group-link {
+    color: $navbarColor;
+    font-size: 13px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// New group / add people pages
+.group-form-page {
+  .group-members {
+    color: #5f6566;
+    font-size: 14px;
+    font-size: 1.4rem;
+  }
+
+  .group-contacts {
+    margin-bottom: 16px;
+
+    .form-label {
+      font-size: 14px;
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+  }
+
+  .group-contact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-size: 1.4rem;
+    cursor: pointer;
+
+    &:hover {
+      background: $backgroundColor;
+    }
+
+    input {
+      width: 16px;
+      height: 16px;
+    }
+
+    .post-avatar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: $navbarColor;
+      color: white;
+      font-size: 12px;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+  }
+
+  .contacts-empty {
+    color: #7a8081;
+    font-size: 14px;
+    font-size: 1.4rem;
+  }
+
+  .alert {
+    font-size: 14px;
+    font-size: 1.4rem;
+  }
+}
+
+.side-contacts .new-group-link {
+  display: inline-block;
+  margin: 10px 15px 0;
+  color: $navbarColor;
+  font-size: 13px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

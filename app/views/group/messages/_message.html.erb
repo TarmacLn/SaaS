@@ -1,0 +1,12 @@
+<%# viewer and last_read_id are passed on normal page renders; broadcasts pass unseen instead %>
+<% unseen = local_assigns.key?(:unseen) ? unseen :
+             (local_assigns[:last_read_id] && local_assigns[:viewer] &&
+              message.id > last_read_id && message.user_id != viewer.id) %>
+<li class="<%= sent_or_received(message, viewer) if local_assigns[:viewer] %> <%= "unseen" if unseen %>"
+    id="<%= dom_id(message) %>"
+    data-controller="message"
+    data-user-id="<%= message.user_id %>">
+  <span class="message-author"><%= message.user.name %></span>
+  <%= message.body %>
+  <%= local_time_tag message.created_at %>
+</li>

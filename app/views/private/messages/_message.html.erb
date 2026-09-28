@@ -1,0 +1,9 @@
+<%# viewer is passed on normal page renders; broadcasts go to both users, so the
+    message Stimulus controller sets message-sent/message-received in each browser %>
+<li class="<%= sent_or_received(message, viewer) if local_assigns[:viewer] %> <%= seen_or_unseen(message) %>"
+    id="<%= dom_id(message) %>"
+    data-controller="message"
+    data-user-id="<%= message.user_id %>">
+  <%= message.body %>
+  <%= local_time_tag message.created_at %>
+</li>

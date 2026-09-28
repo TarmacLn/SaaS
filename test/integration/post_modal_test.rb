@@ -17,4 +17,15 @@ class PostModalTest < ActionDispatch::IntegrationTest
       end
     end
   end
+
+  test "cards carry the right modal button for who is looking" do
+    get root_path
+    assert_select ".single-post-card[id=?] .post-actions a[href=?]", post_path(posts(:team_post)), login_path
+
+    sign_in users(:one)
+    get root_path
+    assert_select ".single-post-card[id=?] .post-actions", post_path(posts(:hobby_post)), text: /This is your post/
+    assert_select ".single-post-card[id=?] .post-actions a.interested[href=?]",
+                  post_path(posts(:team_post)), post_path(posts(:team_post))
+  end
 end

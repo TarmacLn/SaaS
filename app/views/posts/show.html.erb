@@ -11,13 +11,14 @@
     <div class="modal-body loaded-data">
       <h3><%= @post.title %></h3>
       <div class="posted-by">
-        Posted by <%= @post.user.name %> · <%= time_ago_in_words(@post.created_at) %> ago
+        Posted by <%= @post.user.name %> ·
+        <%= local_time_tag @post.created_at, format: :title, text: "#{time_ago_in_words(@post.created_at)} ago" %>
       </div>
       <p class="post-body"><%= @post.content %></p>
     </div>
 
     <div class="modal-footer">
-      <%= render contact_button_partial_path, post_url: post_path(@post) %>
+      <%= render contact_user_partial_path %>
     </div>
   </article>
 </div>

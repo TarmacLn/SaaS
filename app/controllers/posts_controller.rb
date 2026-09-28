@@ -3,6 +3,9 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.includes(:user, :category).find(params[:id])
+    if user_signed_in?
+      @message_has_been_sent = conversation_exist?
+    end
   end
 
   def new
@@ -33,6 +36,11 @@ class PostsController < ApplicationController
   end
 
   private
+
+  def conversation_exist?
+    @conversation = Private::Conversation.between_users(current_user.id, @post.user.id).first
+    @conversation.present?
+  end
 
   def post_params
     params.require(:post).permit(:title, :content, :category_id)

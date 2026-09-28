@@ -1,0 +1,16 @@
+<fieldset class="group-contacts">
+  <legend class="form-label"><%= legend %></legend>
+  <% if contacts.empty? %>
+    <p class="contacts-empty"><%= empty_text %></p>
+  <% else %>
+    <% contacts.each do |contact| %>
+      <label class="group-contact">
+        <%= check_box_tag "group_conversation[user_ids][]", contact.id,
+                          Array(params.dig(:group_conversation, :user_ids)).include?(contact.id.to_s),
+                          id: "group_contact_#{contact.id}" %>
+        <span class="post-avatar" aria-hidden="true"><%= user_initial(contact) %></span>
+        <%= contact.name %>
+      </label>
+    <% end %>
+  <% end %>
+</fieldset>

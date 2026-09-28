@@ -1,0 +1,13 @@
+# users one, two and three are in the study group
+
+one_in_study_group:
+  conversation: study_group
+  user: one
+
+two_in_study_group:
+  conversation: study_group
+  user: two
+
+three_in_study_group:
+  conversation: study_group
+  user: three

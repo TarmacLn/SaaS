@@ -1,0 +1,81 @@
+require "test_helper"
+
+class Private::ConversationTest < ActiveSupport::TestCase
+  def conversation
+    private_conversations(:one_and_two)
+  end
+
+  test "has a sender and a recipient" do
+    assert_equal users(:one), conversation.sender
+    assert_equal users(:two), conversation.recipient
+  end
+
+  test "has many messages" do
+    assert_equal [ private_messages(:hello), private_messages(:reply) ].sort, conversation.messages.sort
+  end
+
+  test "requires a sender and a recipient" do
+    new_conversation = Private::Conversation.new
+    assert_not new_conversation.valid?
+    assert new_conversation.errors.added?(:sender, :blank)
+    assert new_conversation.errors.added?(:recipient, :blank)
+  end
+
+  test "cannot start a conversation with yourself" do
+    new_conversation = Private::Conversation.new(sender: users(:one), recipient: users(:one))
+    assert_not new_conversation.valid?
+    assert_includes new_conversation.errors[:recipient], "can't be yourself"
+  end
+
+  test "cannot duplicate a conversation in either direction" do
+    assert_not Private::Conversation.new(sender: users(:one), recipient: users(:two)).valid?
+    assert_not Private::Conversation.new(sender: users(:two), recipient: users(:one)).valid?
+  end
+
+  test "an existing conversation is still valid" do
+    assert conversation.valid?
+  end
+
+  test "deleting a conversation deletes its messages" do
+    assert_difference "Private::Message.count", -2 do
+      conversation.destroy
+    end
+  end
+
+  test "between_users finds a conversation in either direction" do
+    assert_equal [ conversation ], Private::Conversation.between_users(users(:one).id, users(:two).id).to_a
+    assert_equal [ conversation ], Private::Conversation.between_users(users(:two).id, users(:one).id).to_a
+  end
+
+  test "between_users is empty for users who never talked" do
+    loner = User.create!(name: "Loner", email: "loner@example.com", password: "password")
+    assert_empty Private::Conversation.between_users(users(:one).id, loner.id)
+  end
+
+  test "opposed_user returns the other user of the conversation" do
+    assert_equal users(:two), conversation.opposed_user(users(:one))
+    assert_equal users(:one), conversation.opposed_user(users(:two))
+  end
+
+  test "for_user finds conversations the user started or received" do
+    assert_equal [ conversation ], Private::Conversation.for_user(users(:one)).to_a
+    assert_equal [ conversation ], Private::Conversation.for_user(users(:two)).to_a
+    loner = User.create!(name: "Loner", email: "loner@example.com", password: "password")
+    assert_empty Private::Conversation.for_user(loner)
+  end
+
+  test "mark_as_seen_by marks only the other person's messages" do
+    private_messages(:hello).update!(seen: false)
+
+    assert_equal 1, conversation.mark_as_seen_by(users(:one))
+    assert private_messages(:reply).reload.seen, "users(:two)'s message is now seen"
+    assert_not private_messages(:hello).reload.seen, "users(:one)'s own message is untouched"
+    assert_equal 0, conversation.mark_as_seen_by(users(:one))
+  end
+
+  test "a new message moves the conversation to the top" do
+    conversation.update_column(:updated_at, 1.day.ago)
+    conversation.messages.create!(user: users(:one), body: "Bump")
+    assert_in_delta Time.current, conversation.reload.updated_at, 5.seconds
+  end
+end

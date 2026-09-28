@@ -1,0 +1,9 @@
+welcome:
+  body: Welcome to the algorithms study group!
+  user: one
+  conversation: study_group
+
+question:
+  body: When do we meet?
+  user: two
+  conversation: study_group

@@ -1,0 +1,6 @@
+<%= turbo_stream.remove conversation_load_more_id(@conversation) %>
+<%= turbo_stream.prepend conversation_messages_id(@conversation) do %>
+  <%= render load_private_messages(@conversation, @messages), conversation: @conversation, messages: @messages %>
+  <%= render partial: conversation_message_partial(@conversation), collection: @messages, as: :message,
+             locals: { viewer: current_user, last_read_id: conversation_last_read_id(@conversation) } %>
+<% end %>

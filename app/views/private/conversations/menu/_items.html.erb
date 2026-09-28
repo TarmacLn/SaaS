@@ -1,0 +1,10 @@
+<% if menu.conversations.empty? %>
+  <p class="conversations-empty">No conversations yet</p>
+<% else %>
+  <% menu.conversations.each do |conversation| %>
+    <% open_path = group_conversation?(conversation) ? open_group_conversation_path(conversation) : open_private_conversation_path(conversation) %>
+    <%= button_to open_path, class: "conversation-item #{"unseen-conv" if menu.unseen?(conversation)}" do %>
+      <%= render "private/conversations/menu/item_content", conversation: conversation, menu: menu %>
+    <% end %>
+  <% end %>
+<% end %>

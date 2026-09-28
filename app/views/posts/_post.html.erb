@@ -13,16 +13,15 @@
     <footer class="post-meta">
       <span class="post-avatar" aria-hidden="true"><%= post_author_initial(post) %></span>
       <span class="post-author"><%= post.user.name %></span>
-      <time class="post-time" datetime="<%= post.created_at.iso8601 %>">
-        <%= time_ago_in_words(post.created_at) %> ago
-      </time>
+      <%= local_time_tag post.created_at, format: :title, class: "post-time",
+                         text: "#{time_ago_in_words(post.created_at)} ago" %>
     </footer>
 
     <div class="post-content">
       <div class="posted-by">Posted by <%= post.user.name %> · <%= time_ago_in_words(post.created_at) %> ago</div>
       <h3><%= post.title %></h3>
       <p><%= post.content %></p>
-      <%= link_to "I'm interested", post_path(post.id), class: 'interested' %>
+      <div class="post-actions"><%= render post_card_actions_partial_path(post), post: post %></div>
     </div>
   </article><!-- card -->
 </div><!-- single-post-card -->

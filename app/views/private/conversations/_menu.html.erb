@@ -1,0 +1,23 @@
+<%# Conversations menu in the navbar: unread badge + recent conversations (live-updated) %>
+<li class="nav-item dropdown conversations-menu" id="conversations-menu">
+  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+     aria-expanded="false" aria-label="Conversations">
+    <i class="bi bi-chat-dots" aria-hidden="true"></i>
+    <%= render "private/conversations/menu/unseen_badge", menu: menu %>
+  </a>
+
+  <div class="dropdown-menu dropdown-menu-end conversations-dropdown">
+    <div class="conversations-dropdown-header">Conversations</div>
+    <div id="conversations-menu-items">
+      <%= render "private/conversations/menu/items", menu: menu %>
+    </div>
+    <div class="conversations-dropdown-footer">
+      <%= link_to new_group_conversation_path do %>
+        <i class="bi bi-people" aria-hidden="true"></i> New group
+      <% end %>
+      <%= link_to messenger_path do %>
+        Open messenger <i class="bi bi-arrow-right" aria-hidden="true"></i>
+      <% end %>
+    </div>
+  </div>
+</li>

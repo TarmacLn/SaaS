@@ -494,3 +494,52 @@ $branchColors: (
   }
 }
 
+
+// Contact section on a post's page (posts/show/_contact_user)
+.contact-user {
+  width: 100%;
+  color: #5f6566;
+  font-size: 14px;
+  font-size: 1.4rem;
+
+  &.login-required a {
+    color: $navbarColor;
+    font-weight: 600;
+  }
+
+  .message-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+
+    .form-label {
+      align-self: flex-start;
+      margin: 0;
+      color: #3a3f40;
+      font-weight: 600;
+    }
+
+    .form-control {
+      border-color: rgba(0, 0, 0, 0.12);
+      border-radius: 10px;
+      font-size: 15px;
+      font-size: 1.5rem;
+
+      &:focus {
+        border-color: rgba($navbarColor, 0.4);
+        box-shadow: 0 0 0 3px rgba($navbarColor, 0.12);
+      }
+    }
+  }
+
+  .contacted-user {
+    color: #2a7d56;
+    font-weight: 600;
+  }
+
+  .message-not-sent {
+    margin-bottom: 10px;
+    color: #c0392b;
+  }
+}

@@ -1,0 +1,13 @@
+<% if menu.conversations.empty? %>
+  <p class="conversations-empty">No conversations yet</p>
+<% else %>
+  <% menu.conversations.each do |conversation| %>
+    <% path = group_conversation?(conversation) ? messenger_group_path(conversation) : messenger_path(conversation_id: conversation.id) %>
+    <%= link_to path,
+                class: ["conversation-item", ("unseen-conv" if menu.unseen?(conversation)),
+                        ("selected" if conversation == selected)],
+                data: { conversation_key: conversation_window_id(conversation) } do %>
+      <%= render "private/conversations/menu/item_content", conversation: conversation, menu: menu %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,0 +1,12 @@
+<%# Broadcast to a message's recipient; opens the conversation's window if it isn't open.
+    Private messages pass the message; group messages pass group_conversation_id. %>
+<% if local_assigns[:group_conversation_id] %>
+  <% window_id = "gc#{group_conversation_id}" %>
+  <% open_url = open_group_conversation_path(group_conversation_id, expanded: false) %>
+<% else %>
+  <% window_id = "pc#{message.conversation_id}" %>
+  <% open_url = open_private_conversation_path(message.conversation_id, expanded: false) %>
+<% end %>
+<div data-controller="incoming-message"
+     data-incoming-message-window-id-value="<%= window_id %>"
+     data-incoming-message-open-url-value="<%= open_url %>"></div>

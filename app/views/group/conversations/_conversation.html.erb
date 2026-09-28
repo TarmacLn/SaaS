@@ -1,0 +1,16 @@
+<li class="conversation-window group-window"
+    id="<%= conversation_window_id(conversation) %>"
+    data-controller="conversation-window"
+    data-conversation-window-expanded-value="<%= local_assigns.fetch(:expanded, false) %>"
+    data-conversation-window-mark-seen-url-value="<%= conversation_mark_as_seen_path(conversation) %>"
+    data-action="click->conversation-window#markSeen"
+    data-turbo-permanent>
+  <div class="conversation-panel" data-gconversation-id="<%= conversation.id %>">
+    <%= render "group/conversations/conversation/heading", conversation: conversation %>
+
+    <div class="conversation-body" data-conversation-window-target="body" hidden>
+      <%= render "private/conversations/conversation/messages_list", conversation: conversation %>
+      <%= render "private/conversations/conversation/new_message_form", conversation: conversation, user: user %>
+    </div>
+  </div>
+</li>

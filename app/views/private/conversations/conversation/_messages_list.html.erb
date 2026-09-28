@@ -1,0 +1,9 @@
+<% messages = private_conversation_messages(conversation) %>
+<div class="messages-list" data-conversation-window-target="messages">
+  <!-- messages -->
+  <ul id="<%= conversation_messages_id(conversation) %>" data-controller="message-dates">
+    <%= render load_private_messages(conversation, messages), conversation: conversation, messages: messages %>
+    <%= render partial: conversation_message_partial(conversation), collection: messages, as: :message,
+               locals: { viewer: current_user, last_read_id: conversation_last_read_id(conversation) } %>
+  </ul>
+</div>

@@ -1,0 +1,256 @@
+// Conversation windows along the bottom of the screen (layouts/application/_private_conversations_windows)
+// Newest window is first in the list and sits on the right.
+
+$chatWindowWidth: 320px;
+
+.conversations-windows {
+  position: fixed;
+  right: 10px;
+  bottom: 0;
+  z-index: 1040; // above page content, below Bootstrap modals
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none; // let clicks through the empty area
+
+  &:empty {
+    display: none;
+  }
+}
+
+.conversation-window {
+  width: $chatWindowWidth;
+  max-width: calc(100vw - 20px);
+  pointer-events: auto;
+
+  textarea {
+    resize: none;
+  }
+}
+
+.conversation-panel {
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+  background: white;
+  box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.18);
+}
+
+.conversation-heading-bar {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  background-color: $navbarColor;
+  color: white;
+
+  .button_to {
+    display: contents;
+  }
+}
+
+.conversation-heading {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  height: 100%;
+  padding: 0 0 0 12px;
+  border: none;
+  background: none;
+  color: white;
+  font-size: 14px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: left;
+
+  .post-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: white;
+    color: $navbarColor;
+    font-size: 12px;
+    font-size: 1.2rem;
+  }
+
+  .contact-name-notif {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+// Window with messages the user hasn't read yet
+.conversation-window.has-unseen .conversation-heading-bar {
+  background-color: #4361ee;
+
+  .close-conversation {
+    background-color: #4361ee;
+  }
+}
+
+.close-conversation {
+  width: 44px;
+  height: 44px;
+  border: none;
+  background-color: $navbarColor;
+  color: white;
+  font-size: 14px;
+  font-size: 1.4rem;
+
+  &:hover, &:focus-visible {
+    background-color: white;
+    color: $navbarColor;
+  }
+}
+
+.messages-list {
+  overflow-anchor: none; // scroll position is kept by conversation_window_controller.js
+  height: 300px;
+  max-height: 45vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 10px;
+  background: $backgroundColor;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+// Loader at the top of the messages (older_messages_controller.js)
+.load-more-messages {
+  align-self: center;
+  padding: 6px 0;
+  color: #7a8081;
+  font-size: 16px;
+  font-size: 1.6rem;
+
+  .bi {
+    display: inline-block;
+    animation: spin-loader 1s linear infinite;
+  }
+}
+
+@keyframes spin-loader {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Date line above the first message of each day (message_dates_controller.js)
+.messages-date {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0 4px;
+  color: #7a8081;
+  font-size: 11px;
+  font-size: 1.1rem;
+  font-weight: 600;
+
+  &::before, &::after {
+    flex: 1;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    content: "";
+  }
+}
+
+.message-received, .message-sent {
+  max-width: 80%;
+  padding: 8px 12px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-size: 1.4rem;
+  line-height: 1.4;
+  word-wrap: break-word;
+  white-space: pre-line;
+
+  time {
+    display: block;
+    margin-top: 2px;
+    font-size: 10px;
+    font-size: 1rem;
+    opacity: 0.6;
+  }
+}
+
+.message-sent {
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+  background-color: $navbarColor;
+  color: white;
+}
+
+.message-received {
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  background-color: white;
+  color: #1f2324;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06);
+
+  // Not read yet
+  &.unseen {
+    box-shadow: inset 3px 0 0 #4361ee, 0 1px 1px rgba(0, 0, 0, 0.06);
+    font-weight: 600;
+  }
+}
+
+.send-private-message {
+  display: flex;
+  align-items: flex-end;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+  textarea {
+    flex: 1;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 0;
+    font-size: 14px;
+    font-size: 1.4rem;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  .send-message {
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: none;
+    color: $navbarColor;
+    font-size: 16px;
+    font-size: 1.6rem;
+
+    &:hover {
+      color: black;
+    }
+  }
+}
+
+// "Already in touch" note on a post page, with the open conversation button
+.contact-user .contacted-user {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  .button_to {
+    margin: 0;
+  }
+}

@@ -1,0 +1,4 @@
+<% count = user.all_received_contact_requests.pending.count %>
+<span id="contact-requests-badge" class="unseen-conversations-badge" <%= "hidden" if count.zero? %>>
+  <%= count %><span class="visually-hidden"> contact requests</span>
+</span>
