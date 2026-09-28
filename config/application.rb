@@ -16,6 +16,9 @@ module SaaS
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # Only load a controller's own helper (plus ApplicationHelper) in its views
+    config.action_controller.include_all_helpers = false
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
