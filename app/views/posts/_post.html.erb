@@ -13,9 +13,8 @@
     <footer class="post-meta">
       <span class="post-avatar" aria-hidden="true"><%= post_author_initial(post) %></span>
       <span class="post-author"><%= post.user.name %></span>
-      <time class="post-time" datetime="<%= post.created_at.iso8601 %>">
-        <%= time_ago_in_words(post.created_at) %> ago
-      </time>
+      <%= local_time_tag post.created_at, format: :title, class: "post-time",
+                         text: "#{time_ago_in_words(post.created_at)} ago" %>
     </footer>
 
     <div class="post-content">

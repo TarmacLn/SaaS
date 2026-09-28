@@ -1,0 +1,4 @@
+<li class="<%= private_message_class(message) %>" id="<%= dom_id(message) %>">
+  <%= message.body %>
+  <%= local_time_tag message.created_at %>
+</li>

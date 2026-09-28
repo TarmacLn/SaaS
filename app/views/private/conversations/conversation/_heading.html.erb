@@ -1,0 +1,15 @@
+<div class="conversation-heading-bar">
+  <button type="button" class="conversation-heading" data-action="conversation-window#toggle"
+          aria-expanded="false" data-conversation-window-target="toggle">
+    <span class="post-avatar" aria-hidden="true"><%= recipient.name.to_s.strip.first&.upcase || "?" %></span>
+    <span class="contact-name-notif"><%= recipient.name %></span>
+  </button>
+
+  <!-- Close conversation button -->
+  <%= button_to close_private_conversation_path(conversation),
+                class: "close-conversation",
+                title: "Close",
+                "aria-label": "Close conversation with #{recipient.name}" do %>
+    <i class="bi bi-x-lg" aria-hidden="true"></i>
+  <% end %>
+</div>

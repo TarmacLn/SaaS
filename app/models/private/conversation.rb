@@ -18,6 +18,13 @@ class Private::Conversation < ApplicationRecord
     )
   end
 
+  scope :for_user, ->(user) { where(sender: user).or(where(recipient: user)) }
+
+  # get the other user of the conversation
+  def opposed_user(user)
+    user == recipient ? sender : recipient
+  end
+
   private
 
   def not_with_yourself

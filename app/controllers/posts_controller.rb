@@ -38,7 +38,8 @@ class PostsController < ApplicationController
   private
 
   def conversation_exist?
-    Private::Conversation.between_users(current_user.id, @post.user.id).present?
+    @conversation = Private::Conversation.between_users(current_user.id, @post.user.id).first
+    @conversation.present?
   end
 
   def post_params
