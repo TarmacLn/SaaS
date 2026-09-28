@@ -15,6 +15,14 @@ class Private::ConversationsHelperTest < ActionView::TestCase
 
     messages = private_conversation_messages(conversation)
     assert_equal "Newest message", messages.last.body
-    assert_operator messages.size, :<=, Private::ConversationsHelper::MESSAGES_IN_WINDOW
+    assert_operator messages.size, :<=, Private::ConversationsHelper::MESSAGES_PER_PAGE
+  end
+
+  test "load_private_messages adds the loader only when older messages exist" do
+    conversation = private_conversations(:one_and_two)
+    all = private_conversation_messages(conversation)
+    assert_equal "shared/empty_partial", load_private_messages(conversation, all)
+    assert_equal "private/messages/load_more_messages", load_private_messages(conversation, all.last(1))
+    assert_equal "shared/empty_partial", load_private_messages(conversation, [])
   end
 end

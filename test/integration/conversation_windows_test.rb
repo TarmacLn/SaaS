@@ -76,4 +76,24 @@ class ConversationWindowsTest < ActionDispatch::IntegrationTest
 
     assert_select ".contacted-user form[action=?]", open_private_conversation_path(@conversation)
   end
+
+  test "a long conversation shows its latest messages with a loader for older ones" do
+    per_page = Private::ConversationsHelper::MESSAGES_PER_PAGE
+    (per_page + 3).times { |i| @conversation.messages.create!(user: users(:one), body: "Message #{i}") }
+    sign_in users(:one)
+    post open_private_conversation_path(@conversation), as: :turbo_stream
+
+    get root_path
+    assert_select "#{@window} ul > li[id^=private_message_]", count: per_page
+    assert_select "#{@window} ul > li:first-child.load-more-messages[data-controller=older-messages]"
+    assert_select "#{@window} li", text: /Message #{per_page + 2}/
+  end
+
+  test "a short conversation has no loader" do
+    sign_in users(:one)
+    post open_private_conversation_path(@conversation), as: :turbo_stream
+
+    get root_path
+    assert_select "#{@window} .load-more-messages", count: 0
+  end
 end
