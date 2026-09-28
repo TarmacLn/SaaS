@@ -54,4 +54,23 @@ class Private::MessageBroadcastTest < ActiveSupport::TestCase
       @conversation.messages.create(user: users(:one), body: "")
     end
   end
+
+  test "both users' conversations menus and badges are refreshed" do
+    [ users(:one), users(:two) ].each do |user|
+      broadcasts = capture_turbo_stream_broadcasts([ user, :private_conversations ]) { send_message(from: users(:one)) }
+      targets = broadcasts.map { |stream| stream["target"] }
+
+      assert_includes targets, "unseen-conversations"
+      assert_includes targets, "conversations-menu-items"
+      assert_includes targets, "messenger-conversations"
+    end
+  end
+
+  test "the recipient's badge counts the new unread conversation" do
+    @conversation.mark_as_seen_by(users(:two))
+    broadcasts = capture_turbo_stream_broadcasts([ users(:two), :private_conversations ]) { send_message(from: users(:one)) }
+
+    badge = broadcasts.find { |stream| stream["target"] == "unseen-conversations" }
+    assert_match(/>\s*1<span/, badge.to_html)
+  end
 end

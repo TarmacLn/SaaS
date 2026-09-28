@@ -24,4 +24,9 @@ class Private::MessageTest < ActiveSupport::TestCase
     assert Private::Message.new.tap(&:valid?).errors.added?(:body, :blank)
     assert_not Private::Message.new(body: "a" * 1001).tap(&:valid?).errors[:body].empty?
   end
+
+  test "unseen_by finds the other person's unseen messages" do
+    assert_equal [ private_messages(:reply) ], Private::Message.unseen_by(users(:one)).to_a
+    assert_empty Private::Message.unseen_by(users(:two))
+  end
 end

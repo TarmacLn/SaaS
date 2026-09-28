@@ -63,4 +63,19 @@ class Private::ConversationTest < ActiveSupport::TestCase
     loner = User.create!(name: "Loner", email: "loner@example.com", password: "password")
     assert_empty Private::Conversation.for_user(loner)
   end
+
+  test "mark_as_seen_by marks only the other person's messages" do
+    private_messages(:hello).update!(seen: false)
+
+    assert_equal 1, conversation.mark_as_seen_by(users(:one))
+    assert private_messages(:reply).reload.seen, "users(:two)'s message is now seen"
+    assert_not private_messages(:hello).reload.seen, "users(:one)'s own message is untouched"
+    assert_equal 0, conversation.mark_as_seen_by(users(:one))
+  end
+
+  test "a new message moves the conversation to the top" do
+    conversation.update_column(:updated_at, 1.day.ago)
+    conversation.messages.create!(user: users(:one), body: "Bump")
+    assert_in_delta Time.current, conversation.reload.updated_at, 5.seconds
+  end
 end
