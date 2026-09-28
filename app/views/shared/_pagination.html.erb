@@ -1,0 +1,6 @@
+<% if pagy.last > 1 %>
+  <div class="pagination-bar">
+    <%== pagy.series_nav(:bootstrap, aria_label: "Posts pages") %>
+    <%== pagy.info_tag(item_name: "posts") %>
+  </div>
+<% end %>

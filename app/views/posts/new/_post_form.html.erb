@@ -1,0 +1,23 @@
+<%= bootstrap_form_with(model: @post, class: "post-form") do |f| %>
+  <%= hidden_field_tag :branch, @branch if @branch %>
+
+  <%= f.text_field :title,
+                   placeholder: "Title",
+                   required: true,
+                   minlength: 5,
+                   maxlength: 255 %>
+  <%= f.text_area :content,
+                  rows: 6,
+                  required: true,
+                  minlength: 20,
+                  maxlength: 1000,
+                  placeholder: "Describe what you are looking for. E.g. specific interests, expertise level, etc." %>
+  <% if @branch %>
+    <%= f.collection_select :category_id, @categories, :id, :name, prompt: "Choose a category" %>
+  <% else %>
+    <%= f.select :category_id,
+                 @categories.group_by(&:branch).transform_values { |cs| cs.map { |c| [ c.name, c.id ] } },
+                 prompt: "Choose a category" %>
+  <% end %>
+  <%= f.primary "Create a post", class: "btn btn-interested w-100" %>
+<% end %>

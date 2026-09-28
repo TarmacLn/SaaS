@@ -42,7 +42,7 @@ nav.navbar {
   }
 }
 
-.active a {
+nav.navbar .active a {
   background: $navbarColor !important;
   border-bottom: solid 5px white;
 }

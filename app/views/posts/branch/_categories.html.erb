@@ -1,0 +1,10 @@
+<ul class="categories-list">
+  <%= render all_categories_button_partial_path, branch: branch %>
+  <% @categories.each do |category| %>
+    <li class="category-item">
+      <%= link_to category.name,
+                  branch_posts_path(branch, category: category.name, search: params[:search]),
+                  class: ("selected-item" if params[:category] == category.name) %>
+    </li>
+  <% end %>
+</ul>

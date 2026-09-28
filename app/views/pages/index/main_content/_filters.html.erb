@@ -1,0 +1,40 @@
+<%= form_with url: root_path, method: :get, id: "search-form", class: "search-form" do %>
+  <i class="bi bi-search" aria-hidden="true"></i>
+  <%= search_field_tag :search,
+                       params[:search],
+                       placeholder: @branch ? branch_search_placeholder(@branch) : "Search all posts",
+                       class: "form-control",
+                       "aria-label": "Search posts" %>
+  <%= hidden_field_tag :branch, @branch if @branch %>
+  <%= hidden_field_tag :category, params[:category] if @branch && params[:category].present? %>
+<% end %>
+
+<ul class="categories-list branches-list">
+  <li class="category-item">
+    <%= link_to "All", home_filter_path(search: params[:search]), class: ("selected-item" unless @branch) %>
+  </li>
+  <% Category::BRANCHES.each do |branch| %>
+    <li class="category-item">
+      <%= link_to branch.capitalize,
+                  home_filter_path(branch: branch, search: params[:search]),
+                  class: ("selected-item" if @branch == branch) %>
+    </li>
+  <% end %>
+</ul>
+
+<% if @branch %>
+  <ul class="categories-list">
+    <li class="category-item">
+      <%= link_to "All categories",
+                  home_filter_path(branch: @branch, search: params[:search]),
+                  class: ("selected-item" if params[:category].blank?) %>
+    </li>
+    <% @categories.each do |category| %>
+      <li class="category-item">
+        <%= link_to category.name,
+                    home_filter_path(branch: @branch, category: category.name, search: params[:search]),
+                    class: ("selected-item" if params[:category] == category.name) %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
