@@ -21,4 +21,11 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal "title", tag["data-local-time-format-value"]
     assert_equal "post-time", tag["class"]
   end
+
+  test "user_initial is the first letter of the name, or ? without one" do
+    assert_equal "U", user_initial(users(:one))
+    assert_equal "Z", user_initial(User.new(name: "  zoe"))
+    assert_equal "?", user_initial(User.new(name: ""))
+    assert_equal "?", user_initial(User.new(name: nil))
+  end
 end
