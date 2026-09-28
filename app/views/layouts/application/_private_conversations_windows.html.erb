@@ -1,4 +1,8 @@
 <% if user_signed_in? %>
+  <%# This user's own real-time stream (Action Cable): new messages and incoming conversations %>
+  <%= turbo_stream_from current_user, :private_conversations %>
+  <div id="incoming-messages" hidden></div>
+
   <ul id="conversations-windows" class="conversations-windows" data-controller="chat-windows">
     <% @private_conversations_windows.each do |conversation| %>
       <%= render partial: "private/conversations/conversation",

@@ -23,7 +23,8 @@ class Private::MessagesController < ApplicationController
         format.turbo_stream do
           render turbo_stream: [
             turbo_stream.append(helpers.conversation_messages_id(@conversation),
-                                partial: "private/messages/message", locals: { message: @message }),
+                                partial: "private/messages/message",
+                                locals: { message: @message, viewer: current_user }),
             turbo_stream.replace(helpers.conversation_form_id(@conversation),
                                  partial: "private/conversations/conversation/new_message_form",
                                  locals: { conversation: @conversation, user: current_user })

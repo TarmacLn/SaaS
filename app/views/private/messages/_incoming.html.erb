@@ -1,0 +1,4 @@
+<%# Broadcast to a message's recipient; opens the conversation's window if it isn't open %>
+<div data-controller="incoming-message"
+     data-incoming-message-window-id-value="pc<%= message.conversation_id %>"
+     data-incoming-message-open-url-value="<%= open_private_conversation_path(message.conversation_id, expanded: false) %>"></div>

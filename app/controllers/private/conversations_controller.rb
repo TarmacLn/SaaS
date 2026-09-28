@@ -36,7 +36,8 @@ class Private::ConversationsController < ApplicationController
   def open
     add_to_conversations(@conversation)
     respond_to do |format|
-      format.turbo_stream { render turbo_stream: open_window_stream }
+      # windows opened by an incoming message start collapsed (?expanded=false)
+      format.turbo_stream { render turbo_stream: open_window_stream(expanded: params[:expanded] != "false") }
       format.html { redirect_back fallback_location: root_path }
     end
   end
@@ -56,9 +57,9 @@ class Private::ConversationsController < ApplicationController
   end
 
   # Newest window goes first (right-most); an already open one is moved there
-  def open_window_stream
+  def open_window_stream(expanded: true)
     turbo_stream.prepend("conversations-windows",
                          partial: "private/conversations/conversation",
-                         locals: { conversation: @conversation, user: current_user, expanded: true })
+                         locals: { conversation: @conversation, user: current_user, expanded: expanded })
   end
 end
