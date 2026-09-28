@@ -67,6 +67,41 @@ class GoogleLoginTest < ActionDispatch::IntegrationTest
     assert_equal "Maria K", user.reload.name
   end
 
+  test "the profile page has no password fields for Google-only accounts" do
+    log_in_with_google
+    get edit_user_registration_path
+
+    assert_select ".google-only-note", text: /log in with Google/
+    assert_select "input[type=password]", count: 0
+  end
+
+  test "Google-only accounts cannot set a password" do
+    log_in_with_google
+    user = User.find_by!(email: "maria@gmail.com")
+
+    put user_registration_path, params: { user: { name: "Maria", email: "maria@gmail.com",
+                                                  password: "newpassword", password_confirmation: "newpassword" } }
+    assert_predicate user.reload.encrypted_password, :blank?
+  end
+
+  test "Google-only accounts cannot log in with email and password" do
+    log_in_with_google
+    delete destroy_user_session_path
+
+    post user_session_path, params: { user: { email: "maria@gmail.com", password: "" } }
+    assert_response :unprocessable_entity
+  end
+
+  test "a linked account keeps its password fields and still needs the current password" do
+    OmniAuth.config.mock_auth[:google_oauth2].info.email = users(:one).email
+    log_in_with_google
+    get edit_user_registration_path
+    assert_select "input[type=password][name='user[current_password]']"
+
+    put user_registration_path, params: { user: { name: "Changed", email: users(:one).email } }
+    assert_equal "User One", users(:one).reload.name
+  end
+
   test "other users still need their current password to edit their profile" do
     sign_in users(:one)
 

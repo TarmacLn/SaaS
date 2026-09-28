@@ -1,6 +1,8 @@
 require "test_helper"
 
 class UserOmniauthTest < ActiveSupport::TestCase
+  include ActionMailer::TestHelper
+
   def google_auth(uid: "google-123", email: "new.person@gmail.com", name: "New Person", verified: true)
     OmniAuth::AuthHash.new(
       provider: "google_oauth2", uid: uid,
@@ -20,6 +22,8 @@ class UserOmniauthTest < ActiveSupport::TestCase
     assert_equal "new.person@gmail.com", user.email
     assert_equal "New Person", user.name
     assert user.google_account?
+    assert user.google_only?
+    assert_predicate user.encrypted_password, :blank?, "no password at all"
   end
 
   test "returns the same user on their next Google login" do
@@ -51,5 +55,33 @@ class UserOmniauthTest < ActiveSupport::TestCase
 
   test "normal accounts are not Google accounts" do
     assert_not users(:one).google_account?
+    assert_not users(:one).google_only?
+  end
+
+  test "a linked account keeps its password" do
+    user = User.from_omniauth(google_auth(email: users(:one).email))
+
+    assert user.google_account?
+    assert_not user.google_only?
+    assert user.valid_password?("password")
+  end
+
+  test "a Google-only account can't log in with a password" do
+    user = User.from_omniauth(google_auth)
+
+    assert_not user.valid_password?("")
+    assert_not user.valid_password?("anything")
+  end
+
+  test "a Google-only account gets no reset password email" do
+    user = User.from_omniauth(google_auth)
+
+    assert_no_emails { user.send_reset_password_instructions }
+    assert_nil user.reload.reset_password_token
+  end
+
+  test "a Google-only account stays valid without a password when edited" do
+    user = User.from_omniauth(google_auth)
+    assert user.update(name: "Renamed")
   end
 end

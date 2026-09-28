@@ -1,10 +1,10 @@
 class RegistrationsController < Devise::RegistrationsController
   protected
 
-  # Google users don't know the random password their account got, so they can change
-  # their name and email without it. Changing the password itself still needs the current one.
+  # Accounts created with Google have no password: they change their name and email
+  # without one, and can't set a password (they always log in with Google).
   def update_resource(resource, params)
-    if resource.google_account? && params[:password].blank?
+    if resource.google_only?
       resource.update_without_password(params.except(:current_password, :password, :password_confirmation))
     else
       super

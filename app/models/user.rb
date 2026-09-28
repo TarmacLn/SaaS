@@ -68,9 +68,9 @@ class User < ApplicationRecord
       return user
     end
 
+    # created through Google: no password at all (see google_only?)
     user = new(provider: auth.provider, uid: auth.uid, email: email,
-               name: auth.info.name.presence || email.split("@").first,
-               password: Devise.friendly_token[0, 32])
+               name: auth.info.name.presence || email.split("@").first)
     user.save
     user
   end
@@ -78,5 +78,25 @@ class User < ApplicationRecord
   # Has logged in with Google (the account was created or linked through it)
   def google_account?
     provider == "google_oauth2"
+  end
+
+  # Created through Google, so it has no password: the user always logs in with Google.
+  # (Accounts that had a password and were later linked to Google keep their password.)
+  def google_only?
+    google_account? && encrypted_password.blank?
+  end
+
+  # Devise: no password needed for Google-only accounts
+  def password_required?
+    return false if google_only?
+
+    super
+  end
+
+  # Devise "forgot password": Google-only accounts have no password to reset
+  def send_reset_password_instructions
+    return if google_only?
+
+    super
   end
 end

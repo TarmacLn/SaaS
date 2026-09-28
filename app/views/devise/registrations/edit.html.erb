@@ -17,28 +17,31 @@
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
+  <% if resource.google_only? %>
+    <p class="google-only-note">
+      You log in with Google, so your account has no password here.
+      Manage your password in your Google account.
+    </p>
+  <% else %>
+    <div class="field">
+      <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+      <%= f.password_field :password, autocomplete: "new-password" %>
+      <% if @minimum_password_length %>
+        <br />
+        <em><%= @minimum_password_length %> characters minimum</em>
+      <% end %>
+    </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+    <div class="field">
+      <%= f.label :password_confirmation %><br />
+      <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+    </div>
 
-  <div class="field">
-    <% if resource.google_account? %>
-      <%= f.label :current_password %> <i>(only needed to change your password; you log in with Google)</i><br />
-    <% else %>
+    <div class="field">
       <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <% end %>
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
+      <%= f.password_field :current_password, autocomplete: "current-password" %>
+    </div>
+  <% end %>
 
   <div class="actions">
     <%= f.submit "Update" %>
