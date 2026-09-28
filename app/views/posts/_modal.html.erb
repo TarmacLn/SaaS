@@ -1,0 +1,21 @@
+<div class="modal fade" id="post-modal" tabindex="-1" aria-labelledby="post-modal-title" aria-hidden="true"
+     data-post-modal-target="modal">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+    <div class="modal-content post-modal" data-post-modal-target="content">
+      <div class="modal-header">
+        <span class="post-category" data-post-modal-target="category"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body loaded-data">
+        <h3 id="post-modal-title" data-post-modal-target="title"></h3>
+        <div class="posted-by" data-post-modal-target="postedBy"></div>
+        <p class="post-body" data-post-modal-target="body"></p>
+      </div>
+
+      <div class="modal-footer">
+        <%= render contact_button_partial_path, post_url: nil %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,7 @@
-<div class="col-12 col-sm-6 col-lg-4 single-post-card" id="<%= post_path(post.id) %>">
-  <article class="card post-card branch-<%= post.category.branch %>">
+<div class="col-12 col-sm-6 col-lg-4 single-post-card" id="<%= post_path(post.id) %>"
+     role="button" tabindex="0" aria-haspopup="dialog"
+     data-action="click->post-modal#open keydown.enter->post-modal#open">
+  <article class="card post-card branch-<%= post.category.branch %>" data-branch="<%= post.category.branch %>">
     <div class="card-body">
       <span class="post-category"><%= post.category.name %></span>
       <h4 class="post-text">
@@ -17,7 +19,7 @@
     </footer>
 
     <div class="post-content">
-      <div class="posted-by">Posted by <%= post.user.name %></div>
+      <div class="posted-by">Posted by <%= post.user.name %> · <%= time_ago_in_words(post.created_at) %> ago</div>
       <h3><%= post.title %></h3>
       <p><%= post.content %></p>
       <%= link_to "I'm interested", post_path(post.id), class: 'interested' %>
