@@ -29,4 +29,21 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     get post_path(id: 0)
     assert_response :not_found
   end
+
+  test "branch pages show only that branch's posts" do
+    { hobby: posts(:hobby_post), study: posts(:study_post), team: posts(:team_post) }.each do |branch, post|
+      get "/posts/#{branch}"
+
+      assert_response :success
+      assert_select ".single-post-card", count: 1
+      assert_select ".single-post-card[id=?]", post_path(post)
+    end
+  end
+
+  test "branch page has a title and the post modal" do
+    get hobby_posts_path
+
+    assert_select "h1.page-title", text: "Find a hobby buddy"
+    assert_select "[data-controller=post-modal] #post-modal", count: 1
+  end
 end

@@ -25,4 +25,9 @@ class PostTest < ActiveSupport::TestCase
     post = Post.new(title: "Complete", user: users(:one), category: categories(:sports))
     assert post.valid?
   end
+
+  test "by_branch returns only posts in that branch" do
+    assert_equal [ posts(:study_post) ], Post.by_branch("study").to_a
+    assert_equal [ posts(:hobby_post) ], Post.by_branch("hobby").to_a
+  end
 end
