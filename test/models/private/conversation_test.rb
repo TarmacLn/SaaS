@@ -41,4 +41,14 @@ class Private::ConversationTest < ActiveSupport::TestCase
       conversation.destroy
     end
   end
+
+  test "between_users finds a conversation in either direction" do
+    assert_equal [ conversation ], Private::Conversation.between_users(users(:one).id, users(:two).id).to_a
+    assert_equal [ conversation ], Private::Conversation.between_users(users(:two).id, users(:one).id).to_a
+  end
+
+  test "between_users is empty for users who never talked" do
+    loner = User.create!(name: "Loner", email: "loner@example.com", password: "password")
+    assert_empty Private::Conversation.between_users(users(:one).id, loner.id)
+  end
 end

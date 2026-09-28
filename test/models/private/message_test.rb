@@ -19,4 +19,9 @@ class Private::MessageTest < ActiveSupport::TestCase
     assert message.errors.added?(:user, :blank)
     assert message.errors.added?(:conversation, :blank)
   end
+
+  test "requires a body of at most 1000 characters" do
+    assert Private::Message.new.tap(&:valid?).errors.added?(:body, :blank)
+    assert_not Private::Message.new(body: "a" * 1001).tap(&:valid?).errors[:body].empty?
+  end
 end

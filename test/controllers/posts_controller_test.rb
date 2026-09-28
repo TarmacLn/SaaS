@@ -11,18 +11,37 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".post-category", text: post.category.name
   end
 
-  test "guest sees a log in button instead of contacting" do
+  test "guest is asked to log in to contact the author" do
     get post_path(posts(:hobby_post))
 
-    assert_select "a[href=?]", login_path, text: "Log in to contact"
-    assert_select ".interested", count: 0
+    assert_select ".contact-user.login-required a[href=?]", login_path
+    assert_select ".message-form", count: 0
   end
 
-  test "signed in user sees the interested button" do
-    sign_in users(:two)
+  test "signed in user sees the message form on someone else's post" do
+    sign_in User.create!(name: "Visitor", email: "visitor@example.com", password: "password")
+    get post_path(posts(:study_post))
+
+    assert_select "#contact-user form.message-form[action=?]", private_conversations_path do
+      assert_select "input[type=hidden][name=post_id][value=?]", posts(:study_post).id.to_s
+      assert_select "textarea[name=message_body]"
+    end
+  end
+
+  test "author sees no contact section on their own post" do
+    sign_in users(:one)
     get post_path(posts(:hobby_post))
 
-    assert_select ".interested", text: /I'm interested/
+    assert_select ".contact-user", count: 0
+  end
+
+  test "user already in touch with the author sees a note instead of the form" do
+    # users one and two already have a conversation (fixtures)
+    sign_in users(:one)
+    get post_path(posts(:team_post))
+
+    assert_select ".contacted-user", text: /already in touch/
+    assert_select ".message-form", count: 0
   end
 
   test "returns 404 for a missing post" do
