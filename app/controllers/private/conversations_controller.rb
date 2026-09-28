@@ -32,6 +32,18 @@ class Private::ConversationsController < ApplicationController
     end
   end
 
+  # Open the conversation with one of the user's contacts, starting it if they never talked
+  def start
+    other = current_user.all_active_contacts.find(params[:user_id])
+    @conversation = Private::Conversation.between_users(current_user.id, other.id).first ||
+                    Private::Conversation.create!(sender: current_user, recipient: other)
+    add_to_conversations(@conversation)
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: open_window_stream }
+      format.html { redirect_to messenger_path(conversation_id: @conversation.id) }
+    end
+  end
+
   # Show a conversation's window (again)
   def open
     add_to_conversations(@conversation)

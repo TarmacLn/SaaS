@@ -8,7 +8,7 @@
                 class: ["conversation-item", ("unseen-conv" if menu.unseen?(conversation)),
                         ("selected" if conversation == selected)],
                 data: { conversation_id: conversation.id } do %>
-      <span class="post-avatar" aria-hidden="true"><%= other.name.to_s.strip.first&.upcase || "?" %></span>
+      <span class="post-avatar" aria-hidden="true"><%= user_initial(other) %></span>
       <span class="conversation-item-text">
         <span class="conversation-item-name"><%= other.name %></span>
         <% if last_message %>

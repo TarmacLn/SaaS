@@ -1,0 +1,16 @@
+<% contacts = user.all_active_contacts.order(:name) %>
+<% if contacts.empty? %>
+  <p class="contacts-empty">No contacts yet. Add people from a conversation window.</p>
+<% else %>
+  <ul>
+    <% contacts.each do |contact| %>
+      <li>
+        <%= button_to start_private_conversations_path(user_id: contact.id), class: "contact-item",
+                      title: "Message #{contact.name}" do %>
+          <span class="post-avatar" aria-hidden="true"><%= user_initial(contact) %></span>
+          <span class="contact-item-name"><%= contact.name %></span>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

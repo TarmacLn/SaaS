@@ -1,0 +1,4 @@
+<%= button_to contacts_path(user_id: other.id), class: "add-user-to-contacts",
+              title: "Add #{other.name} to contacts", "aria-label": "Add #{other.name} to contacts" do %>
+  <i class="bi bi-person-plus" aria-hidden="true"></i>
+<% end %>

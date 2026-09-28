@@ -27,6 +27,9 @@ Rails.application.routes.draw do
 
   namespace :private do
     resources :conversations, only: [ :create ] do
+      collection do
+        post :start # open (or start) a conversation with a contact
+      end
       member do
         post :close
         post :open
@@ -35,6 +38,8 @@ Rails.application.routes.draw do
     end
     resources :messages, only: [ :index, :create ]
   end
+
+  resources :contacts, only: [ :create, :update, :destroy ]
 
   resources :posts do
     collection do

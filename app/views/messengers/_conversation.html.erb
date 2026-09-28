@@ -5,8 +5,11 @@
      data-conversation-window-mark-seen-url-value="<%= mark_as_seen_private_conversation_path(conversation) %>"
      data-action="click->conversation-window#markSeen">
   <header class="messenger-conversation-heading">
-    <span class="post-avatar" aria-hidden="true"><%= recipient.name.to_s.strip.first&.upcase || "?" %></span>
+    <span class="post-avatar" aria-hidden="true"><%= user_initial(recipient) %></span>
     <span class="contact-name-notif"><%= recipient.name %></span>
+    <span id="pc<%= conversation.id %>-contact-button" class="window-contact-button">
+      <%= render "contacts/window_button", viewer: current_user, other: recipient %>
+    </span>
   </header>
 
   <div class="conversation-body" data-conversation-window-target="body">

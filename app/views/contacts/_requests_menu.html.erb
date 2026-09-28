@@ -1,0 +1,15 @@
+<%# Contact requests in the navbar: pending count + accept/decline (live-updated) %>
+<li class="nav-item dropdown conversations-menu contact-requests-menu" id="contact-requests-menu">
+  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+     data-bs-auto-close="outside" aria-expanded="false" aria-label="Contact requests">
+    <i class="bi bi-person-plus" aria-hidden="true"></i>
+    <%= render "contacts/requests_badge", user: user %>
+  </a>
+
+  <div class="dropdown-menu dropdown-menu-end conversations-dropdown">
+    <div class="conversations-dropdown-header">Contact requests</div>
+    <div id="contact-requests-items">
+      <%= render "contacts/request_items", user: user %>
+    </div>
+  </div>
+</li>

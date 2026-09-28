@@ -309,3 +309,200 @@ nav.navbar .conversations-dropdown a {
     flex: 1;
   }
 }
+
+// Contact requests in the navbar (contacts/_requests_menu)
+.contact-request {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-size: 1.4rem;
+
+  .post-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: $navbarColor;
+    color: white;
+    font-size: 13px;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+
+  .contact-request-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .button_to {
+    margin: 0;
+  }
+
+  .btn-accept-contact, .btn-decline-contact {
+    border-radius: 50px;
+    font-size: 12px;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .btn-accept-contact {
+    padding: 4px 12px;
+    background: $navbarColor;
+    color: white;
+
+    &:hover {
+      background: mix(white, $navbarColor, 15%);
+      color: white;
+    }
+  }
+
+  .btn-decline-contact {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    color: #5f6566;
+
+    &:hover {
+      border-color: #e5484d;
+      color: #e5484d;
+    }
+  }
+}
+
+// Contact button in a conversation window's heading
+.window-contact-button {
+  display: contents;
+
+  .button_to {
+    display: contents;
+  }
+}
+
+.add-user-to-contacts, .contact-request-sent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  font-size: 1.6rem;
+}
+
+.add-user-to-contacts:hover, .add-user-to-contacts:focus-visible {
+  background: white;
+  color: $navbarColor;
+}
+
+.contact-request-received {
+  color: #7ee2a8; // someone wants to be your contact
+}
+
+.contact-request-sent {
+  cursor: default;
+  opacity: 0.7;
+}
+
+// On the messenger page the heading is white
+.messenger-conversation-heading {
+  .window-contact-button > *:first-child {
+    margin-left: auto;
+  }
+
+  .add-user-to-contacts, .contact-request-sent {
+    border-radius: 50%;
+    color: $navbarColor;
+
+    &:hover {
+      background: $backgroundColor;
+    }
+  }
+
+  .contact-request-received {
+    color: #2a7d56;
+  }
+}
+
+// Contacts in the home page side menu (pages/index/_contacts)
+.side-contacts {
+  max-width: 195px;
+  margin-top: 24px;
+
+  h4 {
+    margin: 0 0 8px 15px;
+    color: #7a8081;
+    font-size: 12px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .button_to {
+    margin: 0;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 50px;
+    background: none;
+    color: black;
+    font-size: 14px;
+    font-size: 1.4rem;
+    text-align: left;
+
+    &:hover {
+      background: $navbarColor;
+      color: white;
+    }
+  }
+
+  .post-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: $navbarColor;
+    color: white;
+    font-size: 11px;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .contact-item:hover .post-avatar {
+    background: white;
+    color: $navbarColor;
+  }
+
+  .contacts-empty {
+    margin: 0 15px;
+    color: #7a8081;
+    font-size: 13px;
+    font-size: 1.3rem;
+  }
+}

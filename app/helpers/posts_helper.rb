@@ -15,7 +15,7 @@ module PostsHelper
   }.freeze
 
   def post_author_initial(post)
-    post.user.name.to_s.strip.first&.upcase || "?"
+    user_initial(post.user)
   end
 
   # Contact section on a post's own page

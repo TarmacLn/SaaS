@@ -1,0 +1,19 @@
+<% requests = user.all_received_contact_requests.pending.includes(:user).order(created_at: :desc) %>
+<% if requests.empty? %>
+  <p class="conversations-empty">No contact requests</p>
+<% else %>
+  <% requests.each do |request| %>
+    <div class="contact-request" id="<%= dom_id(request) %>">
+      <span class="post-avatar" aria-hidden="true"><%= user_initial(request.user) %></span>
+      <span class="contact-request-text">
+        <span class="conversation-item-name"><%= request.user.name %></span>
+        <span class="conversation-item-snippet">wants to add you as a contact</span>
+      </span>
+      <%= button_to "Accept", contact_path(request), method: :patch, class: "btn btn-sm btn-accept-contact" %>
+      <%= button_to contact_path(request), method: :delete, class: "btn btn-sm btn-decline-contact",
+                    title: "Decline", "aria-label": "Decline #{request.user.name}'s request" do %>
+        <i class="bi bi-x-lg" aria-hidden="true"></i>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
