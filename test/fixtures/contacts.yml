@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# users one and two are contacts
+one_and_two:
+  user: one
+  contact: two
+  accepted: true
+
+# user three asked user one; not accepted yet
+three_asks_one:
+  user: three
+  contact: one
+  accepted: false

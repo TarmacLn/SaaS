@@ -16,4 +16,33 @@ class User < ApplicationRecord
            foreign_key: :recipient_id,
            class_name: "Private::Conversation",
            dependent: :destroy
+
+  # Contacts: requests this user sent (contacts) and received (all_received_contact_requests)
+  has_many :contacts, dependent: :destroy
+  has_many :all_received_contact_requests, class_name: "Contact", foreign_key: :contact_id, dependent: :destroy
+
+  has_many :accepted_sent_contact_requests, -> { where(contacts: { accepted: true }) },
+           through: :contacts, source: :contact
+  has_many :accepted_received_contact_requests, -> { where(contacts: { accepted: true }) },
+           through: :all_received_contact_requests, source: :user
+  has_many :pending_sent_contact_requests, -> { where(contacts: { accepted: false }) },
+           through: :contacts, source: :contact
+  has_many :pending_received_contact_requests, -> { where(contacts: { accepted: false }) },
+           through: :all_received_contact_requests, source: :user
+
+  # Users who are this user's contacts, whoever sent the request
+  def all_active_contacts
+    User.where(id: accepted_sent_contact_requests.select(:id))
+        .or(User.where(id: accepted_received_contact_requests.select(:id)))
+  end
+
+  # Users with a contact request not accepted yet, sent or received
+  def all_pending_contacts
+    User.where(id: pending_sent_contact_requests.select(:id))
+        .or(User.where(id: pending_received_contact_requests.select(:id)))
+  end
+
+  def contact_with?(user)
+    all_active_contacts.exists?(user.id)
+  end
 end

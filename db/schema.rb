@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_28_141043) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_28_154318) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -19,6 +19,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_28_141043) do
     t.datetime "created_at", null: false
     t.string "name"
     t.datetime "updated_at", null: false
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.boolean "accepted", default: false, null: false
+    t.bigint "contact_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["contact_id"], name: "index_contacts_on_contact_id"
+    t.index ["user_id", "contact_id"], name: "index_contacts_on_user_id_and_contact_id", unique: true
+    t.index ["user_id"], name: "index_contacts_on_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -66,6 +77,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_28_141043) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "contacts", "users"
+  add_foreign_key "contacts", "users", column: "contact_id"
   add_foreign_key "posts", "categories"
   add_foreign_key "posts", "users"
   add_foreign_key "private_conversations", "users", column: "recipient_id"
