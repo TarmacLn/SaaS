@@ -167,13 +167,21 @@ nav.navbar .conversations-dropdown a {
   }
 }
 
-// Messenger page
+// Messenger page: fills the screen below the navbar (body has padding-top: 70px);
+// only the conversations list and the messages scroll, not the page.
 .messenger {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 70px);
+  height: calc(100dvh - 70px); // mobile browsers: excludes the address bar
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
 .messenger-panel {
+  flex: 1;
+  flex-wrap: nowrap;
+  min-height: 0;
   overflow: hidden;
   border-radius: 14px;
   background: white;
@@ -181,10 +189,14 @@ nav.navbar .conversations-dropdown a {
 }
 
 .messenger-sidebar {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
   border-right: 1px solid rgba(0, 0, 0, 0.08);
 
   #messenger-conversations {
-    max-height: calc(100vh - 190px);
+    flex: 1;
+    min-height: 0;
     overflow-y: auto;
   }
 }
@@ -200,30 +212,33 @@ nav.navbar .conversations-dropdown a {
 .messenger-main {
   display: flex;
   flex-direction: column;
-  min-height: 420px;
+  min-height: 0;
 }
 
 .messenger-conversation {
   display: flex;
   flex: 1;
   flex-direction: column;
+  min-height: 0;
 
   .conversation-body {
     display: flex;
     flex: 1;
     flex-direction: column;
+    min-height: 0;
   }
 
   .messages-list {
     flex: 1;
-    height: calc(100vh - 290px);
+    height: auto;
     max-height: none;
-    min-height: 260px;
+    min-height: 0;
   }
 }
 
 .messenger-conversation-heading {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 10px;
   height: 56px;
@@ -266,13 +281,31 @@ nav.navbar .conversations-dropdown a {
   }
 }
 
+// Phones: conversations list on top (up to a third of the screen), the conversation below
 @media screen and (max-width: 767px) {
+  .messenger {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .messenger-panel {
+    flex-direction: column;
+  }
+
   .messenger-sidebar {
+    flex: 0 0 auto;
+    max-height: 33%;
     border-right: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
 
-    #messenger-conversations {
-      max-height: 35vh;
-    }
+  .messenger-title {
+    padding: 12px 16px 8px;
+    font-size: 18px;
+    font-size: 1.8rem;
+  }
+
+  .messenger-main {
+    flex: 1;
   }
 }
