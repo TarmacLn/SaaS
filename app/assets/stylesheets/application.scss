@@ -1,8 +1,9 @@
 // Variables
 @import "base/variables";
+@import "base/default";
 
 // Bootstrap
 @import "bootstrap";
 
 // Partials - main css files
-@import "partials/layouts";
+@import "partials/index";
