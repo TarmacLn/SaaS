@@ -23,6 +23,15 @@ Rails.application.routes.draw do
   # root "posts#index"
   root to: "pages#index"
 
+  namespace :private do
+    resources :conversations, only: [ :create ] do
+      member do
+        post :close
+      end
+    end
+    resources :messages, only: [ :index, :create ]
+  end
+
   resources :posts do
     collection do
       get "hobby"

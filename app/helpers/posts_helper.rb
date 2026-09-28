@@ -18,11 +18,31 @@ module PostsHelper
     post.user.name.to_s.strip.first&.upcase || "?"
   end
 
-  def contact_button_partial_path
+  # Contact section on a post's own page
+  def contact_user_partial_path
     if user_signed_in?
-      "posts/contact_button/signed_in"
+      @post.user.id != current_user.id ? "posts/show/contact_user" : "shared/empty_partial"
     else
-      "posts/contact_button/guest"
+      "posts/show/login_required"
+    end
+  end
+
+  def leave_message_partial_path
+    if @message_has_been_sent
+      "posts/show/contact_user/already_in_touch"
+    else
+      "posts/show/contact_user/message_form"
+    end
+  end
+
+  # Button shown in the post modal, copied from the card when it's opened
+  def post_card_actions_partial_path(post)
+    if !user_signed_in?
+      "posts/card_actions/guest"
+    elsif post.user_id == current_user.id
+      "posts/card_actions/own_post"
+    else
+      "posts/card_actions/interested"
     end
   end
 

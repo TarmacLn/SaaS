@@ -4,12 +4,19 @@ class Private::Conversation < ApplicationRecord
   has_many :messages,
            class_name: "Private::Message",
            foreign_key: :conversation_id,
+           inverse_of: :conversation,
            dependent: :destroy
   belongs_to :sender, foreign_key: :sender_id, class_name: "User"
   belongs_to :recipient, foreign_key: :recipient_id, class_name: "User"
 
   validate :not_with_yourself
   validate :unique_pair_of_users
+
+  scope :between_users, ->(user1_id, user2_id) do
+    where(sender_id: user1_id, recipient_id: user2_id).or(
+      where(sender_id: user2_id, recipient_id: user1_id)
+    )
+  end
 
   private
 
@@ -19,9 +26,8 @@ class Private::Conversation < ApplicationRecord
 
   # The unique index only covers sender -> recipient; also block recipient -> sender
   def unique_pair_of_users
-    duplicate = Private::Conversation
-      .where(sender_id: [ sender_id, recipient_id ], recipient_id: [ sender_id, recipient_id ])
-      .where.not(id: id)
-    errors.add(:base, "A conversation between these users already exists") if duplicate.exists?
+    if Private::Conversation.between_users(sender_id, recipient_id).where.not(id: id).exists?
+      errors.add(:base, "A conversation between these users already exists")
+    end
   end
 end

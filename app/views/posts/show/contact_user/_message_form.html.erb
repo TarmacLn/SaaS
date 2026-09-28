@@ -1,0 +1,12 @@
+<%= form_with url: private_conversations_path, class: "message-form" do %>
+  <%= hidden_field_tag :post_id, @post.id %>
+  <%= label_tag :message_body, "Send #{@post.user.name} a message", class: "form-label" %>
+  <%= text_area_tag :message_body,
+                    nil,
+                    rows: 3,
+                    required: true,
+                    maxlength: 1000,
+                    class: "form-control",
+                    placeholder: "Send a message to the user" %>
+  <%= submit_tag "Send a message", class: "btn btn-interested send-message-to-user" %>
+<% end %>

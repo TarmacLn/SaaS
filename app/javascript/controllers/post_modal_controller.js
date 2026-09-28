@@ -6,7 +6,7 @@ import { Modal } from "bootstrap"
 // While the modal is open the address bar shows the post's URL (/posts/:id),
 // which also works as a standalone page when shared or refreshed.
 export default class extends Controller {
-  static targets = [ "modal", "content", "category", "title", "postedBy", "body", "interested" ]
+  static targets = [ "modal", "content", "category", "title", "postedBy", "body", "actions" ]
 
   connect() {
     this.modal = Modal.getOrCreateInstance(this.modalTarget)
@@ -32,9 +32,8 @@ export default class extends Controller {
     this.titleTarget.textContent = post.querySelector("h3").textContent
     this.postedByTarget.textContent = post.querySelector(".posted-by").textContent
     this.bodyTarget.textContent = post.querySelector("p").textContent
-    if (this.hasInterestedTarget) {
-      this.interestedTarget.href = post.querySelector(".interested").href
-    }
+    // Server-rendered per card: log in / I'm interested / nothing for your own post
+    this.actionsTarget.innerHTML = post.querySelector(".post-actions").innerHTML
 
     this.previousUrl = window.location.href
     history.replaceState(history.state, "", card.id)

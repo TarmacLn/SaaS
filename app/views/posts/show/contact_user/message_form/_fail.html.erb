@@ -1,0 +1,6 @@
+<div class="contact-user" id="contact-user">
+  <div class="message-not-sent">
+    Message has not been sent<%= ": #{errors.to_sentence}" if errors.any? %>
+  </div>
+  <%= render "posts/show/contact_user/message_form" %>
+</div>
