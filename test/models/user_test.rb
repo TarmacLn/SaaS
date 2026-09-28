@@ -33,4 +33,15 @@ class UserTest < ActiveSupport::TestCase
       user.destroy
     end
   end
+
+  test "has private conversations it started and messages it sent" do
+    assert_equal [ private_conversations(:one_and_two) ], users(:one).private_conversations.to_a
+    assert_equal [ private_messages(:hello) ], users(:one).private_messages.to_a
+  end
+
+  test "deleting a user deletes their conversations, including ones they received" do
+    assert_difference({ "Private::Conversation.count" => -1, "Private::Message.count" => -2 }) do
+      users(:two).destroy
+    end
+  end
 end

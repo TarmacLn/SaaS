@@ -1,0 +1,12 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+hello:
+  body: Hi! I saw your post about tennis.
+  user: one
+  conversation: one_and_two
+  seen: true
+
+reply:
+  body: Hey, sure, let's play on Saturday.
+  user: two
+  conversation: one_and_two
