@@ -20,6 +20,8 @@
                             class: 'form-control' %>
         <%= f.submit 'Sign up', class: 'btn sign-up-button' %>
       <% end %>
+
+      <%= render "devise/shared/google_login", label: "Sign up with Google" %>
     </div>
   </div>
 </div>

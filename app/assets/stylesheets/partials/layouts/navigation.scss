@@ -1,58 +1,232 @@
 nav.navbar {
-  background: $navbarColor !important;
+  min-height: 56px;
+  padding: 0;
   border: none;
+  background: $navbarColor !important;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.15);
+  font-size: 14px;
+  font-size: 1.4rem;
 
-  .navbar-toggler, .navbar-brand {
-    transition: opacity 0.15s;
-  }
-  .navbar-toggler:hover, .navbar-brand:hover {
-    opacity: 0.8;
-  }
-
-  a {
-    color: white !important;
-  }
-
-  .col-sm-5, .col-sm-7 {
+  .col-md-5, .col-md-7 {
     padding: 0;
   }
-}
 
-.pc-menu {
-  margin-right: 10px;
-}
+  // Brand
+  .navbar-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: white !important;
+    font-size: 18px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    transition: opacity 0.15s;
 
-.mobile-menu {
-  i {
-    color: white;
-  }
-  ul {
-    padding: 0px;
-  }
-  a {
-    display: block;
-    padding: 10px 0px 10px 25px !important;
-  }
-  a:hover {
-    background: white !important;
-    color: black !important;
-    i {
-      color: black;
+    .bi {
+      color: #f4c27a;
+    }
+
+    &:hover {
+      opacity: 0.85;
     }
   }
+
+  .navbar-toggler {
+    padding: 4px 8px;
+    border-color: rgba(255, 255, 255, 0.25);
+    transition: opacity 0.15s;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  .navbar-nav {
+    gap: 4px;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 50px;
+    color: rgba(255, 255, 255, 0.85) !important;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover, &:focus-visible, &.show {
+      background: rgba(255, 255, 255, 0.12);
+      color: white !important;
+    }
+  }
+
+  // Guests: "Signup" as a light pill button
+  .btn-signup {
+    padding: 6px 16px;
+    background: white;
+    color: $navbarColor !important;
+    font-weight: 600;
+
+    &:hover, &:focus-visible {
+      background: #e9ecec;
+      color: $navbarColor !important;
+    }
+  }
+
+  // Contact requests and conversations: round icon buttons with a badge
+  .navbar-icon-button {
+    position: relative;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    font-size: 18px;
+    font-size: 1.8rem;
+
+    &::after {
+      display: none; // no caret, just the icon
+    }
+
+    .unseen-conversations-badge {
+      top: 0;
+      right: -2px;
+    }
+  }
+
+  // Account menu toggle: avatar + name
+  #user-settings {
+    padding: 4px 12px 4px 4px;
+  }
+
+  .navbar-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: white;
+    color: $navbarColor;
+    font-size: 13px;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  #user-name {
+    max-width: 140px;
+    overflow: hidden;
+    color: white;
+    font-weight: 600;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 
-nav.navbar .active a {
-  background: $navbarColor !important;
-  border-bottom: solid 5px white;
-}
-
-.dropdown-toggle, .dropdown-menu {
-  background: $navbarColor !important;
+// Account dropdown: a white card like the conversations menu
+nav.navbar .account-dropdown {
+  min-width: 240px;
+  margin-top: 8px !important;
+  padding: 6px 0;
+  overflow: hidden;
   border: none;
+  border-radius: 12px;
+  background: white !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  font-size: 14px;
+  font-size: 1.4rem;
+
+  .account-dropdown-header {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 16px 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    margin-bottom: 6px;
+  }
+
+  .account-dropdown-name {
+    color: #1f2324;
+    font-weight: 700;
+  }
+
+  .account-dropdown-email {
+    overflow: hidden;
+    color: #7a8081;
+    font-size: 12px;
+    font-size: 1.2rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    color: #1f2324 !important;
+
+    .bi {
+      width: 16px;
+      color: #7a8081;
+    }
+
+    &:hover, &:focus-visible {
+      background: $backgroundColor;
+    }
+  }
+
+  .log-out, .log-out .bi {
+    color: #c0392b !important;
+  }
 }
 
-.dropdown-menu a:hover {
-  color: black !important;
-  background: white !important;
+// The icon menus' dropdowns sit a little lower, like the account menu
+nav.navbar .conversations-menu .dropdown-menu {
+  margin-top: 8px !important;
+}
+
+// Phones: the collapsed menu is a stacked list
+@media screen and (max-width: 767px) {
+  nav.navbar {
+    .navbar-collapse {
+      padding: 8px 0 12px;
+    }
+
+    .navbar-nav {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .mobile-menu, .nav-item:not(.dropdown) {
+      flex-basis: 100%;
+    }
+
+    .mobile-menu .nav-link {
+      padding: 10px 12px;
+      border-radius: 10px;
+    }
+
+    .btn-signup {
+      justify-content: center;
+      margin-top: 4px;
+    }
+
+    // the icon menus open across the navbar's width, under the icons
+    .conversations-menu {
+      position: static;
+    }
+
+    .conversations-menu .dropdown-menu {
+      position: absolute;
+      right: 12px;
+      left: 12px;
+      width: auto;
+      max-width: none;
+    }
+  }
 }

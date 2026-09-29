@@ -2,7 +2,8 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: [ :google_oauth2 ]
   has_many :posts, dependent: :destroy
 
   has_many :private_messages, class_name: "Private::Message", dependent: :destroy
@@ -49,5 +50,53 @@ class User < ApplicationRecord
 
   def contact_with?(user)
     all_active_contacts.exists?(user.id)
+  end
+
+  # The user for a Google login (auth is OmniAuth's auth hash): the one who used this Google
+  # account before, else an existing account with the same *verified* email (linked to Google),
+  # else a new account. Returns an unsaved user with errors if it can't be saved.
+  def self.from_omniauth(auth)
+    user = find_by(provider: auth.provider, uid: auth.uid)
+    return user if user
+
+    email = auth.info.email.to_s.downcase
+    verified = ActiveModel::Type::Boolean.new.cast(auth.extra&.raw_info&.email_verified)
+
+    user = find_by(email: email) if verified && email.present?
+    if user
+      user.update(provider: auth.provider, uid: auth.uid)
+      return user
+    end
+
+    # created through Google: no password at all (see google_only?)
+    user = new(provider: auth.provider, uid: auth.uid, email: email,
+               name: auth.info.name.presence || email.split("@").first)
+    user.save
+    user
+  end
+
+  # Has logged in with Google (the account was created or linked through it)
+  def google_account?
+    provider == "google_oauth2"
+  end
+
+  # Created through Google, so it has no password: the user always logs in with Google.
+  # (Accounts that had a password and were later linked to Google keep their password.)
+  def google_only?
+    google_account? && encrypted_password.blank?
+  end
+
+  # Devise: no password needed for Google-only accounts
+  def password_required?
+    return false if google_only?
+
+    super
+  end
+
+  # Devise "forgot password": Google-only accounts have no password to reset
+  def send_reset_password_instructions
+    return if google_only?
+
+    super
   end
 end

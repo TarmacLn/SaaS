@@ -1,23 +1,46 @@
 <%= render "contacts/requests_menu", user: current_user %>
 <%= render "private/conversations/menu", menu: @conversations_menu %>
 
-<li class="nav-item dropdown pc-menu d-none d-sm-block">
+<%# Account menu: on wider screens a dropdown, on phones plain links in the collapsed menu %>
+<li class="nav-item dropdown pc-menu d-none d-md-block">
   <a id="user-settings" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+    <span class="navbar-avatar" aria-hidden="true"><%= user_initial(current_user) %></span>
     <span id="user-name"><%= current_user.name %></span>
   </a>
 
-  <ul class="dropdown-menu dropdown-menu-end">
-    <li><%= link_to 'Edit Profile', edit_user_registration_path, class: 'dropdown-item' %></li>
-    <li><%= link_to 'Log out', destroy_user_session_path, class: 'dropdown-item', data: { turbo_method: :delete } %></li>
-  </ul>
+  <div class="dropdown-menu dropdown-menu-end account-dropdown">
+    <div class="account-dropdown-header">
+      <span class="account-dropdown-name"><%= current_user.name %></span>
+      <span class="account-dropdown-email"><%= current_user.email %></span>
+    </div>
+    <%= link_to edit_user_registration_path, class: 'dropdown-item' do %>
+      <i class="bi bi-person" aria-hidden="true"></i> Edit Profile
+    <% end %>
+    <%= link_to messenger_path, class: 'dropdown-item' do %>
+      <i class="bi bi-chat-dots" aria-hidden="true"></i> Messenger
+    <% end %>
+    <%= link_to new_group_conversation_path, class: 'dropdown-item' do %>
+      <i class="bi bi-people" aria-hidden="true"></i> New group
+    <% end %>
+    <div class="dropdown-divider"></div>
+    <%= link_to destroy_user_session_path, class: 'dropdown-item log-out', data: { turbo_method: :delete } do %>
+      <i class="bi bi-box-arrow-right" aria-hidden="true"></i> Log out
+    <% end %>
+  </div>
 </li>
 
-<li class="nav-item mobile-menu d-sm-none">
-  <%= link_to 'Messenger', messenger_path, class: 'nav-link' %>
+<li class="nav-item mobile-menu d-md-none">
+  <%= link_to messenger_path, class: 'nav-link' do %>
+    <i class="bi bi-chat-dots" aria-hidden="true"></i> Messenger
+  <% end %>
 </li>
-<li class="nav-item mobile-menu d-sm-none">
-  <%= link_to 'Edit Profile', edit_user_registration_path, class: 'nav-link' %>
+<li class="nav-item mobile-menu d-md-none">
+  <%= link_to edit_user_registration_path, class: 'nav-link' do %>
+    <i class="bi bi-person" aria-hidden="true"></i> Edit Profile
+  <% end %>
 </li>
-<li class="nav-item mobile-menu d-sm-none">
-  <%= link_to 'Log out', destroy_user_session_path, class: 'nav-link', data: { turbo_method: :delete } %>
+<li class="nav-item mobile-menu d-md-none">
+  <%= link_to destroy_user_session_path, class: 'nav-link', data: { turbo_method: :delete } do %>
+    <i class="bi bi-box-arrow-right" aria-hidden="true"></i> Log out
+  <% end %>
 </li>
