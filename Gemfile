@@ -65,9 +65,6 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
-
-  # Fake data for db/seeds.rb [https://github.com/faker-ruby/faker]
-  gem "faker"
 end
 
 group :development do
