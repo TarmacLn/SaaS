@@ -1,16 +1,4 @@
-// Conversations menu in the navbar (private/conversations/_menu)
-.conversations-menu {
-  .dropdown-toggle {
-    position: relative;
-    font-size: 18px;
-    font-size: 1.8rem;
-
-    &::after {
-      display: none; // no caret, just the icon
-    }
-  }
-}
-
+// Conversations menu in the navbar (private/conversations/_menu); the icon button is in navigation.scss
 .unseen-conversations-badge {
   position: absolute;
   top: 2px;

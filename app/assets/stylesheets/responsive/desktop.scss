@@ -1,5 +1,2 @@
-@media screen and (min-width: 767px) {
-  .mobile-menu {
-    display: none !important;
-  }
-}
+// Wider screens (768px and up). The navbar's account menu switches between desktop and
+// phone versions with Bootstrap's d-md-* classes (layouts/navigation/collapsible_elements).

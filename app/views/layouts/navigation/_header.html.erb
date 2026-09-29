@@ -1,5 +1,7 @@
 <div class="d-flex align-items-center justify-content-between">
-  <%= link_to 'CollabCafe', root_path, class: 'navbar-brand' %>
+  <%= link_to root_path, class: 'navbar-brand' do %>
+    <i class="bi bi-cup-hot-fill" aria-hidden="true"></i> CollabCafe
+  <% end %>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapsible-content" aria-controls="navbar-collapsible-content" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
