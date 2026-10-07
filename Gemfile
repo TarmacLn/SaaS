@@ -51,7 +51,7 @@ gem "omniauth-google-oauth2", "~> 1.2"
 gem "omniauth-rails_csrf_protection", "~> 2.0"
 
 # Pagination [https://github.com/ddnexus/pagy]
-gem "pagy", "~> 43.6"
+gem "pagy", "~> 43.7"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
